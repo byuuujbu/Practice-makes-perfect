@@ -1,4 +1,4 @@
-// 운세 구성 요소 (조합하면 20 * 2 * 10 = 400가지 이상의 문장이 가능)
+// 운세 구성 요소
 const keywords = ["용신", "희신", "합", "충", "파", "해", "귀인", "록", "살", "공망", "비견", "겁재", "식신", "상관", "편재", "정재", "편관", "정관", "편인", "정인"];
 const states = ["강성하니", "서리니", "비치니", "머무니", "맴도니"];
 const advices = [
@@ -31,17 +31,14 @@ function getFortune() {
         return;
     }
 
-    // 시드 계산 개선: 숫자를 문자열로 붙인 뒤 정수로 변환하여 더 큰 변별력을 줌
-    // 오늘 날짜를 더해 매일 다른 결과가 나오도록 함
     const today = new Date();
     const dateStr = `${y}${m}${d}${today.getFullYear()}${today.getMonth()}${today.getDate()}`;
     let seed = 0;
     for(let i=0; i<dateStr.length; i++) {
         seed = (seed * 31) + dateStr.charCodeAt(i);
-        seed = seed % 1000000; // 시드 값 범위 제한
+        seed = seed % 1000000;
     }
 
-    // 시드를 이용해 각 요소를 독립적으로 선택 (조합의 다양성 극대화)
     const kwIdx = seed % keywords.length;
     const stIdx = Math.floor(seed / 3) % states.length;
     const adIdx = Math.floor(seed / 7) % advices.length;
@@ -49,30 +46,30 @@ function getFortune() {
     const fortuneText = `일진에 ${keywords[kwIdx]}의 기운이 ${states[stIdx]}, 오늘은 ${advices[adIdx]}`;
 
     display.innerHTML = `
-        <div style="font-size:0.9rem; opacity:0.6; margin-bottom:12px;">${y}.${m}.${d}생의 천기</div>
-        <div class="fortune-result" onclick="showMenu(${seed})">"${fortuneText}"</div>
-        <div class="sub-text">(운세 문장을 클릭하면 저메추가 나타납니다)</div>
-        <div id="menu-recommendation"></div>
+        <div class="fortune-container">
+            <div class="fortune-meta">BIRTH CHART • ${y}.${m}.${d}</div>
+            <div class="fortune-result" onclick="showMenu(${seed})">"${fortuneText}"</div>
+            <div class="placeholder-text">(터치하여 오늘의 만찬을 확인하십시오)</div>
+            <div id="menu-recommendation"></div>
+        </div>
     `;
 }
 
 function showMenu(seed) {
     const menuArea = document.getElementById('menu-recommendation');
-    // 시드에 현재 시간(시)을 더해 메뉴 선택의 변별력을 높임
     const mIdx = (seed + new Date().getHours() * 13) % dinnerMenus.length;
     const menuName = dinnerMenus[mIdx];
     
-    menuArea.style.display = "block";
     menuArea.innerHTML = `
         <div class="menu-content">
-            <span class="menu-label">오늘의 처방 식단</span>
-            <span class="menu-name">[ ${menuName} ]</span>
-            <div class="menu-decoration">✦ ✦ ✦</div>
+            <span class="menu-label">Heavenly Menu Recommendation</span>
+            <span class="menu-name">${menuName}</span>
+            <div class="menu-decoration">✧</div>
         </div>
     `;
 }
 
-// 테마 토글 기능
+// 테마 토글
 function toggleTheme() {
     const currentTheme = document.documentElement.getAttribute('data-theme');
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';
@@ -85,11 +82,10 @@ function toggleTheme() {
 function updateThemeButton(theme) {
     const btn = document.getElementById('theme-btn');
     if (btn) {
-        btn.textContent = theme === 'light' ? '🌙 다크 모드' : '☀️ 라이트 모드';
+        btn.textContent = theme === 'light' ? 'DARK' : 'LIGHT';
     }
 }
 
-// 초기 테마 설정
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
