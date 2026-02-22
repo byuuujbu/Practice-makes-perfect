@@ -49,13 +49,16 @@ function showMenu(seed) {
     const menuArea = document.getElementById('menu-recommendation');
     const mIdx = (seed + new Date().getHours()) % dinnerMenus.length;
     const menuName = dinnerMenus[mIdx];
+    
+    // 키워드를 인코딩하고, 더 정확한 검색을 위해 'dish' 태그를 추가합니다.
+    const encodedMenu = encodeURIComponent(menuName + " dish");
 
     menuArea.style.display = "block";
     menuArea.innerHTML = `
         <div class="menu-content">
             <span class="menu-label">오늘의 처방 식단</span>
             <div class="menu-img-container">
-                <img src="https://loremflickr.com/400/300/food,${menuName}" alt="${menuName}" class="menu-img">
+                <img src="https://loremflickr.com/600/400/food,${encodedMenu}" alt="${menuName}" class="menu-img">
             </div>
             <span class="menu-name">[ ${menuName} ]</span>
         </div>
