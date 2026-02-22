@@ -24,6 +24,8 @@ function getFortune() {
     const y = document.getElementById('year').value;
     const m = document.getElementById('month').value;
     const d = document.getElementById('day').value;
+    const w = document.getElementById('weight').value;
+    const mbti = document.getElementById('mbti').value.toUpperCase();
     const display = document.getElementById('display-area');
 
     if (!y || !m || !d) {
@@ -32,7 +34,8 @@ function getFortune() {
     }
 
     const today = new Date();
-    const dateStr = `${y}${m}${d}${today.getFullYear()}${today.getMonth()}${today.getDate()}`;
+    // 시드 계산에 몸무게와 MBTI 추가하여 더 고유한 결과 생성
+    const dateStr = `${y}${m}${d}${w}${mbti}${today.getFullYear()}${today.getMonth()}${today.getDate()}`;
     let seed = 0;
     for(let i=0; i<dateStr.length; i++) {
         seed = (seed * 31) + dateStr.charCodeAt(i);
@@ -47,7 +50,7 @@ function getFortune() {
 
     display.innerHTML = `
         <div class="fortune-container">
-            <div class="fortune-meta">BIRTH CHART • ${y}.${m}.${d}</div>
+            <div class="fortune-meta">DESTINY CHART • ${y}.${m}.${d} • ${mbti || 'UNKNOWN'}</div>
             <div class="fortune-result" onclick="showMenu(${seed})">"${fortuneText}"</div>
             <div class="placeholder-text">(터치하여 오늘의 만찬을 확인하십시오)</div>
             <div id="menu-recommendation"></div>
