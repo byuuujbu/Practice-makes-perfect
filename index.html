@@ -1,14 +1,203 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>운세와 저메추 - 명리 정해(命理 正解)</title>
+    
+    <style>
+        body {
+            background-color: #0a1221; /* 깊은 다크 네이비 */
+            color: #ffffff; /* 기본 글씨 하얀색 */
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .fortune-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 3rem 2rem;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 550px;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px); /* 배경 살짝 흐리게 고급화 */
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            color: #ffffff;
+            font-weight: 800;
+        }
+
+        .input-box {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        input {
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid #2c3e50;
+            background: #161f2e;
+            color: white;
+            text-align: center;
+            font-size: 1.1rem;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        input:focus {
+            border-color: #ff3e3e;
+        }
+
+        button {
+            background: #ffffff;
+            color: #0a1221;
+            border: none;
+            padding: 18px 50px;
+            border-radius: 50px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(255,255,255,0.1);
+        }
+
+        button:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        #display-area { 
+            margin-top: 45px; 
+            min-height: 200px; 
+        }
+
+        .fortune-result {
+            color: #ff3e3e; /* 운세 한 문장 빨간색 */
+            font-size: 1.6rem;
+            font-weight: 800;
+            line-height: 1.5;
+            cursor: pointer;
+            padding: 20px;
+            word-break: keep-all;
+            transition: transform 0.2s;
+            text-shadow: 0 0 12px rgba(255, 62, 62, 0.2);
+        }
+
+        .fortune-result:hover { 
+            transform: scale(1.04); 
+        }
+
+        #menu-recommendation {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            background: rgba(46, 204, 113, 0.08);
+            border: 1px solid rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            font-weight: bold;
+            display: none;
+            animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .sub-text {
+            font-size: 0.9rem;
+            opacity: 0.5;
+            margin-top: 15px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
+
+    <div class="fortune-card">
+        <h1>운세와 저메추</h1>
+        
+        <div class="input-box">
+            <input type="number" id="year" placeholder="년" min="1900" max="2030">
+            <input type="number" id="month" placeholder="월" min="1" max="12">
+            <input type="number" id="day" placeholder="일" min="1" max="31">
+        </div>
+
+        <button onclick="getFortune()">나의 기운 확인하기</button>
+
+        <div id="display-area">
+            <p style="opacity: 0.3;">당신의 태어난 날로부터 운의 흐름을 읽습니다.</p>
+        </div>
+    </div>
+
+    <script>
+        // 200개 운세 키워드 및 조합 데이터
+        const kw = ["용신", "희신", "합", "충", "파", "해", "귀인", "록", "살", "공망", "비견", "겁재", "식신", "상관", "편재", "정재", "편관", "정관", "편인", "정인"];
+        const ad = ["내실을 기하십시오.", "과감히 나아가십시오.", "조력을 구하십시오.", "언행을 삼가십시오.", "변동을 피하십시오.", "욕심을 버리십시오.", "인연을 소중히 하십시오.", "지혜를 발휘하십시오.", "잠시 쉬어가십시오.", "기회를 포착하십시오."];
+        
+        const fortunes = [];
+        for(let i=0; i<200; i++) {
+            fortunes.push(`일진에 ${kw[i % kw.length]}의 기운이 ${i%2===0?'강성하니':'서리니'}, 오늘은 ${ad[i % ad.length]}`);
+        }
+
+        // 100개 저녁 메뉴 리스트
+        const dinnerMenus = [
+            "삼겹살과 쌈채소", "순두부찌개", "초밥 세트", "수제 돈가스", "한우 스테이크", "제육볶음", "해물 칼국수", "크림 파스타", "짬뽕", "짜장면",
+            "연어 덮밥", "갈비탕", "떡볶이", "후라이드 치킨", "쌀국수", "비빔밥", "평양냉면", "닭볶음탕", "해물파전", "감자탕",
+            "마라탕", "양꼬치", "수제 버거", "인도 커리", "똠양꿍", "불고기 전골", "아구찜", "육회 비빔밥", "고등어 구이", "청국장",
+            "팟타이", "봉골레 파스타", "라자냐", "스키야키", "샤브샤브", "보쌈", "족발", "곱창 전골", "장어 구이", "추어탕",
+            "베이글", "타코", "규동", "텐동", "오코노미야키", "김치찜", "찜닭", "간장 게장", "부대찌개", "동태탕",
+            "들깨 수제비", "낙지 볶음", "오징어 소면", "치즈 리조또", "탄탄면", "멘보샤", "전복죽", "오리 주물럭", "순대국밥", "돼지국밥",
+            "소고기 무국", "닭갈비", "코다리 조림", "우렁 쌈밥", "곤드레밥", "알리오 올리오", "시카고 피자", "월남쌈", "분짜", "나시고랭",
+            "카츠동", "사케동", "우니 파스타", "양갈비", "전복 삼계탕", "해물탕", "조개구이", "물회", "대구지리탕", "소머리국밥",
+            "김치전", "오므라이스", "함박 스테이크", "마파두부", "꿔바로우", "훠궈", "라멘", "소바", "치즈 돈가스", "회덮밥",
+            "생선까스", "에그 베네딕트", "프렌치 토스트", "샐러드", "고소한 라떼와 샌드위치", "갈치조림", "육개장", "수육 국밥", "닭발", "골뱅이 무침"
+        ];
+
+        function getFortune() {
+            const y = document.getElementById('year').value;
+            const m = document.getElementById('month').value;
+            const d = document.getElementById('day').value;
+            const display = document.getElementById('display-area');
+
+            if(!y || !m || !d) {
+                alert("생년월일을 입력해주셔야 기운을 읽을 수 있습니다.");
+                return;
+            }
+
+            const today = new Date();
+            // 고유 시드: 생일 조합 + 오늘 날짜 (매일 바뀌는 운세)
+            const seed = (parseInt(y) * parseInt(m) * parseInt(d)) + (today.getFullYear() + today.getMonth() + today.getDate());
+            const fIdx = seed % fortunes.length;
+
+            display.innerHTML = `
+                <div style="font-size:0.9rem; opacity:0.6; margin-bottom:12px;">${y}.${m}.${d}생의 천기</div>
+                <div class="fortune-result" onclick="showMenu(${seed})">"${fortunes[fIdx]}"</div>
+                <div class="sub-text">(운세 문장을 클릭하면 저메추가 나타납니다)</div>
+                <div id="menu-recommendation"></div>
+            `;
+        }
+
+        function showMenu(seed) {
+            const menuArea = document.getElementById('menu-recommendation');
+            const mIdx = (seed + new Date().getHours()) % dinnerMenus.length;
+            
+            menuArea.style.display = "block";
+            menuArea.innerHTML = `오늘의 처방 식단: <br><span style="font-size:1.5rem; color:#ffffff;">[ ${dinnerMenus[mIdx]} ]</span>`;
+        }
+    </script>
 </body>
 </html>
