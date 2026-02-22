@@ -97,7 +97,7 @@ header {
 }
 
 .subtitle {
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     letter-spacing: 4px;
     text-transform: uppercase;
     color: var(--accent-color);
@@ -209,7 +209,7 @@ input:focus {
 }
 
 .placeholder-text {
-    font-size: 0.8rem;
+    font-size: 0.65rem;
     letter-spacing: 2px;
     color: var(--accent-color);
     opacity: 1;
