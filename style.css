@@ -123,7 +123,22 @@ header {
     margin-bottom: 2.5rem;
 }
 
+.field-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.field-wrapper label {
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
 input {
+    width: 100%;
     background: var(--input-bg);
     border: none;
     border-bottom: 1px solid var(--border-color);
@@ -138,10 +153,26 @@ input {
     text-transform: uppercase;
 }
 
+input::-webkit-input-placeholder {
+    color: #FFD700 !important;
+    opacity: 1 !important;
+    -webkit-text-fill-color: #FFD700 !important;
+}
+
+input::-moz-placeholder {
+    color: #FFD700 !important;
+    opacity: 1 !important;
+}
+
+input:-ms-input-placeholder {
+    color: #FFD700 !important;
+    opacity: 1 !important;
+}
+
 input::placeholder {
-    font-size: 0.7rem;
-    letter-spacing: 1px;
-    opacity: 0.4;
+    color: #FFD700 !important;
+    opacity: 1 !important;
+    -webkit-text-fill-color: #FFD700 !important;
 }
 
 input:focus {

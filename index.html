@@ -24,13 +24,28 @@
             
             <div class="input-section">
                 <div class="input-group">
-                    <input type="number" id="year" placeholder="YYYY" min="1900" max="2030">
-                    <input type="number" id="month" placeholder="MM" min="1" max="12">
-                    <input type="number" id="day" placeholder="DD" min="1" max="31">
+                    <div class="field-wrapper">
+                        <label for="year">연도</label>
+                        <input type="number" id="year" placeholder="YYYY" min="1900" max="2030">
+                    </div>
+                    <div class="field-wrapper">
+                        <label for="month">월</label>
+                        <input type="number" id="month" placeholder="MM" min="1" max="12">
+                    </div>
+                    <div class="field-wrapper">
+                        <label for="day">일</label>
+                        <input type="number" id="day" placeholder="DD" min="1" max="31">
+                    </div>
                 </div>
                 <div class="input-group secondary">
-                    <input type="number" id="weight" placeholder="Weight (kg)" min="1" max="300">
-                    <input type="text" id="mbti" placeholder="MBTI" maxlength="4">
+                    <div class="field-wrapper">
+                        <label for="weight">몸무게(kg)</label>
+                        <input type="number" id="weight" placeholder="Weight (kg)" min="1" max="300">
+                    </div>
+                    <div class="field-wrapper">
+                        <label for="mbti">MBTI</label>
+                        <input type="text" id="mbti" placeholder="MBTI" maxlength="4">
+                    </div>
                 </div>
                 <button class="action-btn" onclick="getFortune()">READ YOUR DESTINY</button>
             </div>
