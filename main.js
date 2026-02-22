@@ -1,11 +1,10 @@
-// 200개 운세 키워드 및 조합 데이터
-const kw = ["용신", "희신", "합", "충", "파", "해", "귀인", "록", "살", "공망", "비견", "겁재", "식신", "상관", "편재", "정재", "편관", "정관", "편인", "정인"];
-const ad = ["내실을 기하십시오.", "과감히 나아가십시오.", "조력을 구하십시오.", "언행을 삼가십시오.", "변동을 피하십시오.", "욕심을 버리십시오.", "인연을 소중히 하십시오.", "지혜를 발휘하십시오.", "잠시 쉬어가십시오.", "기회를 포착하십시오."];
-
-const fortunes = [];
-for (let i = 0; i < 200; i++) {
-    fortunes.push(`일진에 ${kw[i % kw.length]}의 기운이 ${i % 2 === 0 ? '강성하니' : '서리니'}, 오늘은 ${ad[i % ad.length]}`);
-}
+// 운세 구성 요소 (조합하면 20 * 2 * 10 = 400가지 이상의 문장이 가능)
+const keywords = ["용신", "희신", "합", "충", "파", "해", "귀인", "록", "살", "공망", "비견", "겁재", "식신", "상관", "편재", "정재", "편관", "정관", "편인", "정인"];
+const states = ["강성하니", "서리니", "비치니", "머무니", "맴도니"];
+const advices = [
+    "내실을 기하십시오.", "과감히 나아가십시오.", "조력을 구하십시오.", "언행을 삼가십시오.", "변동을 피하십시오.", 
+    "욕심을 버리십시오.", "인연을 소중히 하십시오.", "지혜를 발휘하십시오.", "잠시 쉬어가십시오.", "기회를 포착하십시오."
+];
 
 // 100개 저녁 메뉴 리스트
 const dinnerMenus = [
@@ -32,14 +31,26 @@ function getFortune() {
         return;
     }
 
+    // 시드 계산 개선: 숫자를 문자열로 붙인 뒤 정수로 변환하여 더 큰 변별력을 줌
+    // 오늘 날짜를 더해 매일 다른 결과가 나오도록 함
     const today = new Date();
-    // 고유 시드: 생일 조합 + 오늘 날짜 (매일 바뀌는 운세)
-    const seed = (parseInt(y) * parseInt(m) * parseInt(d)) + (today.getFullYear() + today.getMonth() + today.getDate());
-    const fIdx = seed % fortunes.length;
+    const dateStr = `${y}${m}${d}${today.getFullYear()}${today.getMonth()}${today.getDate()}`;
+    let seed = 0;
+    for(let i=0; i<dateStr.length; i++) {
+        seed = (seed * 31) + dateStr.charCodeAt(i);
+        seed = seed % 1000000; // 시드 값 범위 제한
+    }
+
+    // 시드를 이용해 각 요소를 독립적으로 선택 (조합의 다양성 극대화)
+    const kwIdx = seed % keywords.length;
+    const stIdx = Math.floor(seed / 3) % states.length;
+    const adIdx = Math.floor(seed / 7) % advices.length;
+
+    const fortuneText = `일진에 ${keywords[kwIdx]}의 기운이 ${states[stIdx]}, 오늘은 ${advices[adIdx]}`;
 
     display.innerHTML = `
         <div style="font-size:0.9rem; opacity:0.6; margin-bottom:12px;">${y}.${m}.${d}생의 천기</div>
-        <div class="fortune-result" onclick="showMenu(${seed})">"${fortunes[fIdx]}"</div>
+        <div class="fortune-result" onclick="showMenu(${seed})">"${fortuneText}"</div>
         <div class="sub-text">(운세 문장을 클릭하면 저메추가 나타납니다)</div>
         <div id="menu-recommendation"></div>
     `;
@@ -47,11 +58,11 @@ function getFortune() {
 
 function showMenu(seed) {
     const menuArea = document.getElementById('menu-recommendation');
-    const mIdx = (seed + new Date().getHours()) % dinnerMenus.length;
+    // 시드에 현재 시간(시)을 더해 메뉴 선택의 변별력을 높임
+    const mIdx = (seed + new Date().getHours() * 13) % dinnerMenus.length;
     const menuName = dinnerMenus[mIdx];
     
-    // 한글 키워드 대신 'food'라는 범용 태그를 사용하고, 
-    // 메뉴 인덱스(mIdx)를 이용하여 메뉴마다 서로 다른 이미지가 고정적으로 나오게 합니다.
+    // 이미지 로드 안정성을 위해 고정된 'food' 태그와 시드 기반 lock 사용
     const imageUrl = `https://loremflickr.com/600/400/food?lock=${mIdx}`;
 
     menuArea.style.display = "block";
