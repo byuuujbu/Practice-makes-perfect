@@ -187,11 +187,12 @@ input:focus {
 
 .action-btn {
     width: 100%;
-    background: var(--text-color);
-    color: var(--bg-color);
-    border: none;
+    background: #000000;
+    color: #ffffff;
+    border: 1px solid #ffffff;
     padding: 1.5rem;
-    font-size: 0.8rem;
+    font-size: 1rem;
+    font-family: var(--font-serif);
     font-weight: 700;
     letter-spacing: 3px;
     cursor: pointer;
@@ -200,7 +201,8 @@ input:focus {
 
 .action-btn:hover {
     letter-spacing: 5px;
-    opacity: 0.9;
+    background: #ffffff;
+    color: #000000;
 }
 
 /* Display Area */
