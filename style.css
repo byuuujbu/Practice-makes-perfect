@@ -1,35 +1,48 @@
 :root {
-    --bg-color: #0a1221;
+    /* 다크 모드 (기본) */
+    --bg-color: #05080e;
     --text-color: #ffffff;
     --card-bg: rgba(255, 255, 255, 0.03);
-    --card-border: rgba(255, 255, 255, 0.1);
-    --input-bg: #161f2e;
-    --input-border: #2c3e50;
-    --btn-bg: #ffffff;
-    --btn-text: #0a1221;
-    --shadow: rgba(0,0,0,0.6);
-    --result-color: #ff3e3e;
-    --menu-bg: rgba(46, 204, 113, 0.08);
-    --menu-border: rgba(46, 204, 113, 0.2);
-    --menu-text: #2ecc71;
+    --card-border: rgba(255, 255, 255, 0.08);
+    --input-bg: rgba(255, 255, 255, 0.05);
+    --input-border: rgba(255, 255, 255, 0.15);
+    --btn-bg: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+    --btn-text: #05080e;
+    --shadow: rgba(0,0,0,0.8);
+    --result-color: #ff4757;
+    --menu-bg: rgba(46, 213, 115, 0.05);
+    --menu-border: rgba(46, 213, 115, 0.15);
+    --menu-text: #2ed573;
     --menu-highlight: #ffffff;
+    --orb-1: #2f3542;
+    --orb-2: #1e272e;
+    --orb-3: #57606f;
 }
 
 [data-theme="light"] {
-    --bg-color: #f5f7fa;
-    --text-color: #2c3e50;
-    --card-bg: rgba(255, 255, 255, 0.9);
-    --card-border: rgba(0, 0, 0, 0.1);
+    --bg-color: #f0f2f5;
+    --text-color: #2f3542;
+    --card-bg: rgba(255, 255, 255, 0.7);
+    --card-border: rgba(255, 255, 255, 0.4);
     --input-bg: #ffffff;
     --input-border: #dcdde1;
-    --btn-bg: #2c3e50;
+    --btn-bg: linear-gradient(135deg, #2f3542 0%, #1e272e 100%);
     --btn-text: #ffffff;
     --shadow: rgba(0,0,0,0.1);
-    --result-color: #e74c3c;
-    --menu-bg: rgba(46, 204, 113, 0.15);
-    --menu-border: rgba(46, 204, 113, 0.3);
-    --menu-text: #27ae60;
-    --menu-highlight: #2c3e50;
+    --result-color: #e84118;
+    --menu-bg: rgba(46, 213, 115, 0.1);
+    --menu-border: rgba(46, 213, 115, 0.25);
+    --menu-text: #20bf6b;
+    --menu-highlight: #2f3542;
+    --orb-1: #a4b0be;
+    --orb-2: #ced6e0;
+    --orb-3: #dfe4ea;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
@@ -40,129 +53,230 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    margin: 0;
-    overflow-x: hidden;
-    transition: background-color 0.3s, color 0.3s;
+    overflow: hidden;
+    transition: background-color 0.5s ease;
 }
 
+/* 배경 애니메이션 */
+.bg-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.orb {
+    position: absolute;
+    filter: blur(80px);
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: move 20s infinite alternate ease-in-out;
+}
+
+.orb-1 {
+    width: 500px;
+    height: 500px;
+    background: var(--orb-1);
+    top: -100px;
+    left: -100px;
+}
+
+.orb-2 {
+    width: 600px;
+    height: 600px;
+    background: var(--orb-2);
+    bottom: -150px;
+    right: -100px;
+    animation-delay: -5s;
+}
+
+.orb-3 {
+    width: 400px;
+    height: 400px;
+    background: var(--orb-3);
+    top: 40%;
+    left: 60%;
+    animation-delay: -10s;
+}
+
+@keyframes move {
+    from { transform: translate(0, 0); }
+    to { transform: translate(100px, 100px); }
+}
+
+/* 카드 스타일 */
 .fortune-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    padding: 3rem 2rem;
-    border-radius: 24px;
-    width: 90%;
-    max-width: 550px;
+    padding: 4rem 3rem;
+    border-radius: 40px;
+    width: 95%;
+    max-width: 600px;
     text-align: center;
-    box-shadow: 0 25px 60px var(--shadow);
-    backdrop-filter: blur(10px);
+    box-shadow: 0 40px 100px var(--shadow);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
     position: relative;
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .theme-toggle {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    background: none;
+    top: 30px;
+    right: 30px;
+    background: var(--input-bg);
     border: 1px solid var(--card-border);
     color: var(--text-color);
-    padding: 8px 12px;
-    border-radius: 20px;
-    font-size: 0.9rem;
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 600;
     cursor: pointer;
-    box-shadow: none;
-    width: auto;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-toggle:hover {
+    transform: scale(1.05);
+    background: var(--card-border);
 }
 
 h1 {
-    font-size: 2.2rem;
-    letter-spacing: 2px;
-    margin-bottom: 2rem;
+    font-size: 2.8rem;
+    letter-spacing: -1px;
+    margin-bottom: 2.5rem;
     color: var(--text-color);
-    font-weight: 800;
+    font-weight: 900;
+    background: linear-gradient(to bottom, var(--text-color) 60%, rgba(255,255,255,0.3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
+[data-theme="light"] h1 {
+    background: linear-gradient(to bottom, var(--text-color) 60%, rgba(0,0,0,0.3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* 입력창 스타일 */
 .input-box {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 30px;
+    gap: 15px;
+    margin-bottom: 40px;
 }
 
 input {
-    padding: 14px;
-    border-radius: 12px;
+    padding: 18px;
+    border-radius: 20px;
     border: 1px solid var(--input-border);
     background: var(--input-bg);
     color: var(--text-color);
     text-align: center;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
     outline: none;
-    transition: border 0.3s, background 0.3s, color 0.3s;
+    transition: all 0.3s ease;
 }
 
 input:focus {
-    border-color: #ff3e3e;
+    border-color: var(--text-color);
+    background: var(--card-border);
+    transform: translateY(-2px);
 }
 
+/* 버튼 스타일 */
 .action-btn {
     background: var(--btn-bg);
     color: var(--btn-text);
     border: none;
-    padding: 18px 50px;
-    border-radius: 50px;
+    padding: 22px 60px;
+    border-radius: 30px;
     font-weight: 800;
     cursor: pointer;
-    transition: all 0.3s;
-    font-size: 1.2rem;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-size: 1.3rem;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    width: 100%;
 }
 
 .action-btn:hover {
-    background: var(--btn-bg);
-    opacity: 0.9;
-    transform: translateY(-2px);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 30px 50px rgba(0,0,0,0.3);
 }
 
+.action-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* 결과 영역 */
 #display-area { 
-    margin-top: 45px; 
-    min-height: 200px; 
+    margin-top: 50px; 
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .fortune-result {
     color: var(--result-color);
-    font-size: 1.6rem;
-    font-weight: 800;
-    line-height: 1.5;
+    font-size: 1.8rem;
+    font-weight: 900;
+    line-height: 1.4;
     cursor: pointer;
-    padding: 20px;
+    padding: 25px;
     word-break: keep-all;
-    transition: transform 0.2s;
-    text-shadow: 0 0 12px rgba(255, 62, 62, 0.2);
+    transition: all 0.3s ease;
+    text-shadow: 0 0 30px rgba(255, 71, 87, 0.3);
+    animation: slideUp 0.8s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .fortune-result:hover { 
-    transform: scale(1.04); 
+    transform: scale(1.05);
+    text-shadow: 0 0 50px rgba(255, 71, 87, 0.5);
 }
 
 #menu-recommendation {
-    margin-top: 30px;
-    padding: 25px;
-    border-radius: 15px;
+    margin-top: 35px;
+    padding: 30px;
+    border-radius: 25px;
     background: var(--menu-bg);
     border: 1px solid var(--menu-border);
     color: var(--menu-text);
-    font-weight: bold;
+    font-weight: 700;
     display: none;
     animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 @keyframes slideUp {
-    from { opacity: 0; transform: translateY(30px); }
+    from { opacity: 0; transform: translateY(40px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 .sub-text {
-    font-size: 0.9rem;
-    opacity: 0.5;
-    margin-top: 15px;
+    font-size: 0.95rem;
+    opacity: 0.4;
+    margin-top: 20px;
+    font-weight: 500;
+}
+
+/* 모바일 대응 */
+@media (max-width: 480px) {
+    .fortune-card {
+        padding: 3rem 1.5rem;
+    }
+    h1 {
+        font-size: 2.2rem;
+    }
+    input {
+        padding: 15px;
+        font-size: 1rem;
+    }
 }

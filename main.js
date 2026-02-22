@@ -50,7 +50,7 @@ function showMenu(seed) {
     const mIdx = (seed + new Date().getHours()) % dinnerMenus.length;
 
     menuArea.style.display = "block";
-    menuArea.innerHTML = `오늘의 처방 식단: <br><span style="font-size:1.5rem; color: var(--menu-highlight);">[ ${dinnerMenus[mIdx]} ]</span>`;
+    menuArea.innerHTML = `오늘의 처방 식단: <br><span style="font-size:1.8rem; color: var(--menu-highlight); display: block; margin-top: 10px;">[ ${dinnerMenus[mIdx]} ]</span>`;
 }
 
 // 테마 토글 기능
