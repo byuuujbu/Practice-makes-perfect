@@ -252,6 +252,24 @@ input:focus {
     animation: slideUp 0.8s ease-out;
 }
 
+.witty-reason {
+    font-size: 1.1rem;
+    color: var(--text-color);
+    margin-bottom: 2.5rem;
+    word-break: keep-all;
+    font-weight: 300;
+    opacity: 0.9;
+    font-style: italic;
+    line-height: 1.6;
+}
+
+.witty-reason::before, .witty-reason::after {
+    content: '"';
+    color: var(--accent-color);
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+}
+
 .menu-label {
     font-size: 0.7rem;
     letter-spacing: 3px;
