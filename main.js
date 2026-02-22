@@ -62,20 +62,12 @@ function showMenu(seed) {
     const mIdx = (seed + new Date().getHours() * 13) % dinnerMenus.length;
     const menuName = dinnerMenus[mIdx];
     
-    // 이미지 로드 안정성을 위해 고정된 'food' 태그와 시드 기반 lock 사용
-    const imageUrl = `https://loremflickr.com/600/400/food?lock=${mIdx}`;
-
     menuArea.style.display = "block";
     menuArea.innerHTML = `
         <div class="menu-content">
             <span class="menu-label">오늘의 처방 식단</span>
-            <div class="menu-img-container">
-                <img src="${imageUrl}" 
-                     alt="${menuName}" 
-                     class="menu-img"
-                     onerror="this.src='https://loremflickr.com/600/400/meal'">
-            </div>
             <span class="menu-name">[ ${menuName} ]</span>
+            <div class="menu-decoration">✦ ✦ ✦</div>
         </div>
     `;
 }
