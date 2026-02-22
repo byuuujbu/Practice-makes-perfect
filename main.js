@@ -50,15 +50,19 @@ function showMenu(seed) {
     const mIdx = (seed + new Date().getHours()) % dinnerMenus.length;
     const menuName = dinnerMenus[mIdx];
     
-    // 키워드를 인코딩하고, 더 정확한 검색을 위해 'dish' 태그를 추가합니다.
-    const encodedMenu = encodeURIComponent(menuName + " dish");
+    // 한글 키워드 대신 'food'라는 범용 태그를 사용하고, 
+    // 메뉴 인덱스(mIdx)를 이용하여 메뉴마다 서로 다른 이미지가 고정적으로 나오게 합니다.
+    const imageUrl = `https://loremflickr.com/600/400/food?lock=${mIdx}`;
 
     menuArea.style.display = "block";
     menuArea.innerHTML = `
         <div class="menu-content">
             <span class="menu-label">오늘의 처방 식단</span>
             <div class="menu-img-container">
-                <img src="https://loremflickr.com/600/400/food,${encodedMenu}" alt="${menuName}" class="menu-img">
+                <img src="${imageUrl}" 
+                     alt="${menuName}" 
+                     class="menu-img"
+                     onerror="this.src='https://loremflickr.com/600/400/meal'">
             </div>
             <span class="menu-name">[ ${menuName} ]</span>
         </div>
