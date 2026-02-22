@@ -48,9 +48,18 @@ function getFortune() {
 function showMenu(seed) {
     const menuArea = document.getElementById('menu-recommendation');
     const mIdx = (seed + new Date().getHours()) % dinnerMenus.length;
+    const menuName = dinnerMenus[mIdx];
 
     menuArea.style.display = "block";
-    menuArea.innerHTML = `오늘의 처방 식단: <br><span style="font-size:1.8rem; color: var(--menu-highlight); display: block; margin-top: 10px;">[ ${dinnerMenus[mIdx]} ]</span>`;
+    menuArea.innerHTML = `
+        <div class="menu-content">
+            <span class="menu-label">오늘의 처방 식단</span>
+            <div class="menu-img-container">
+                <img src="https://loremflickr.com/400/300/food,${menuName}" alt="${menuName}" class="menu-img">
+            </div>
+            <span class="menu-name">[ ${menuName} ]</span>
+        </div>
+    `;
 }
 
 // 테마 토글 기능
