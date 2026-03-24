@@ -232,7 +232,7 @@ header {
 .input-section {
     width: 100%;
     max-width: 440px;
-    margin-bottom: 4rem;
+    margin: 0 auto 4rem;
 }
 
 .input-group {
