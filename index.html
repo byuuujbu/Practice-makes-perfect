@@ -1,27 +1,72 @@
 <!DOCTYPE html>
-<html lang="ko" data-theme="dark">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE ORACLE - 명리 정해</title>
+
+    <!-- ======= SEO & Social Meta ======= -->
+    <title>THE ORACLE — K-Fortune & Feast ✨</title>
+    <meta name="description" content="Discover your destiny through ancient Korean fortune telling. Get your personalized fate reading + tonight's divine menu recommendation. A mystical experience for K-culture fans. ✨">
+    <meta name="keywords" content="k-pop fortune, korean fortune telling, kpop horoscope, k-pop oracle, destiny reading, kpop fans, bts fortune, idol fortune, saju, k-fortune">
+    <link rel="canonical" href="https://your-domain.com/">
+
+    <!-- Open Graph (Facebook, KakaoTalk, LINE preview) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-domain.com/">
+    <meta property="og:title" content="THE ORACLE — Read Your K-Fate ✨">
+    <meta property="og:description" content="Ancient Korean destiny reading meets tonight's perfect meal. What does the universe say about YOU today? 🌙">
+    <meta property="og:image" content="https://your-domain.com/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="ko_KR">
+    <meta property="og:locale:alternate" content="id_ID">
+    <meta property="og:locale:alternate" content="pt_BR">
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@theoracle_kfate">
+    <meta name="twitter:title" content="THE ORACLE — Read Your K-Fate ✨">
+    <meta name="twitter:description" content="Ancient Korean destiny reading meets tonight's perfect meal. What does the universe say about YOU today? 🌙">
+    <meta name="twitter:image" content="https://your-domain.com/og-image.jpg">
+
+    <!-- Google Analytics 4 -->
+    <!-- TODO: Replace G-XXXXXXXXXX with your actual GA4 Measurement ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX', {
+            page_title: 'THE ORACLE - Home',
+            page_location: window.location.href
+        });
+    </script>
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="stars-container"></div>
-    
+    <div class="glow-orb glow-1"></div>
+    <div class="glow-orb glow-2"></div>
+
     <div class="app-container">
         <header>
             <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">LIGHT</button>
             <div class="logo">THE ORACLE</div>
+            <div class="header-tag">✦ K-Fortune ✦</div>
         </header>
 
         <main class="content">
+            <div class="badge">✧ MYSTICAL READING ✧</div>
             <h1 class="main-title">Fortune <i>&</i> Feast</h1>
             <p class="subtitle">우주가 당신의 오늘을 기록합니다.</p>
-            
+            <p class="subtitle-en">The universe is writing your story.</p>
+
             <div class="input-section">
                 <div class="input-group">
                     <div class="field-wrapper">
@@ -42,16 +87,16 @@
                         <input type="text" id="mbti" placeholder="MBTI" maxlength="4">
                     </div>
                 </div>
-                <button class="action-btn" onclick="getFortune()">READ YOUR DESTINY</button>
+                <button class="action-btn" onclick="getFortune()">✦ READ YOUR DESTINY ✦</button>
             </div>
 
-            <div id="display-area">
-            </div>
+            <div id="display-area"></div>
         </main>
 
         <footer>
             <div class="footer-line"></div>
             <p>© 2026 THE ORACLE. ALL RIGHTS RESERVED.</p>
+            <p class="footer-sub">✦ for the dreamers, the stans, the universe-believers ✦</p>
         </footer>
     </div>
 

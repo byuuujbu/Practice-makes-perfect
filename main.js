@@ -2,7 +2,7 @@
 const keywords = ["용신", "희신", "합", "충", "파", "해", "귀인", "록", "살", "공망", "비견", "겁재", "식신", "상관", "편재", "정재", "편관", "정관", "편인", "정인"];
 const states = ["강성하니", "서리니", "비치니", "머무니", "맴도니"];
 const advices = [
-    "내실을 기하십시오.", "과감히 나아가십시오.", "조력을 구하십시오.", "언행을 삼가십시오.", "변동을 피하십시오.", 
+    "내실을 기하십시오.", "과감히 나아가십시오.", "조력을 구하십시오.", "언행을 삼가십시오.", "변동을 피하십시오.",
     "욕심을 버리십시오.", "인연을 소중히 하십시오.", "지혜를 발휘하십시오.", "잠시 쉬어가십시오.", "기회를 포착하십시오."
 ];
 
@@ -123,11 +123,19 @@ const wittyReasons = [
     "자, 이제 행운을 한 입 크게 베어 물 차례입니다!"
 ];
 
+// ── GA4 이벤트 헬퍼 ──
+function trackEvent(eventName, params = {}) {
+    if (typeof gtag === 'function') {
+        gtag('event', eventName, params);
+    }
+}
+
+// ── 운세 보기 ──
 function getFortune() {
-    const y = document.getElementById('year').value;
-    const m = document.getElementById('month').value;
-    const d = document.getElementById('day').value;
-    const w = document.getElementById('weight').value;
+    const y    = document.getElementById('year').value;
+    const m    = document.getElementById('month').value;
+    const d    = document.getElementById('day').value;
+    const w    = document.getElementById('weight').value;
     const mbti = document.getElementById('mbti').value.toUpperCase();
     const display = document.getElementById('display-area');
 
@@ -136,11 +144,17 @@ function getFortune() {
         return;
     }
 
-    const today = new Date();
-    // 시드 계산에 몸무게와 MBTI 추가하여 더 고유한 결과 생성
+    // GA4: fortune_read 이벤트
+    trackEvent('fortune_read', {
+        has_mbti: mbti.length > 0,
+        has_weight: w.length > 0,
+        birth_year: y
+    });
+
+    const today   = new Date();
     const dateStr = `${y}${m}${d}${w}${mbti}${today.getFullYear()}${today.getMonth()}${today.getDate()}`;
     let seed = 0;
-    for(let i=0; i<dateStr.length; i++) {
+    for (let i = 0; i < dateStr.length; i++) {
         seed = (seed * 31) + dateStr.charCodeAt(i);
         seed = seed % 1000000;
     }
@@ -154,21 +168,27 @@ function getFortune() {
     display.innerHTML = `
         <div class="fortune-container">
             <div class="fortune-meta">DESTINY CHART • ${y}.${m}.${d} • ${mbti || 'UNKNOWN'}</div>
-            <div class="fortune-result" onclick="showMenu(${seed})">"${fortuneText}"</div>
-            <div class="placeholder-text">(터치하여 오늘의 만찬을 확인하십시오)</div>
+            <div class="fortune-result" onclick="revealMenu(${seed})">"${fortuneText}"</div>
+            <div class="fortune-tap-hint">✦ tap to reveal tonight's divine menu ✦</div>
             <div id="menu-recommendation"></div>
         </div>
     `;
 }
 
-function showMenu(seed) {
+// ── 메뉴 공개 ──
+function revealMenu(seed) {
     const menuArea = document.getElementById('menu-recommendation');
+    if (menuArea.innerHTML.trim() !== '') return; // 이미 보임
+
     const mIdx = (seed + new Date().getHours() * 13) % dinnerMenus.length;
-    const rIdx = (seed + new Date().getHours() * 7) % wittyReasons.length;
-    
+    const rIdx = (seed + new Date().getHours() * 7)  % wittyReasons.length;
+
     const menuName = dinnerMenus[mIdx];
-    const reason = wittyReasons[rIdx];
-    
+    const reason   = wittyReasons[rIdx];
+
+    // GA4: menu_revealed 이벤트
+    trackEvent('menu_revealed', { menu_name: menuName });
+
     menuArea.innerHTML = `
         <div class="menu-content">
             <div class="witty-reason">${reason}</div>
@@ -176,28 +196,122 @@ function showMenu(seed) {
             <span class="menu-name">${menuName}</span>
             <div class="menu-decoration">✧</div>
         </div>
+        <div class="share-section">
+            <span class="share-label">✦ share your fate ✦</span>
+            <div class="share-buttons">
+                <button class="share-btn twitter" onclick="shareOnTwitter('${menuName}')">
+                    𝕏 Share on X
+                </button>
+                <button class="share-btn copy" id="copy-btn" onclick="copyLink()">
+                    ✦ Copy Link
+                </button>
+            </div>
+        </div>
     `;
 }
 
-// 테마 토글
+// ── Twitter / X 공유 ──
+function shareOnTwitter(menuName) {
+    const fortuneEl = document.querySelector('.fortune-result');
+    const fortuneText = fortuneEl ? fortuneEl.textContent.replace(/^"|"$/g, '') : '';
+
+    const text = [
+        `✨ The Oracle read my K-fate today ✨`,
+        ``,
+        `${fortuneText}`,
+        ``,
+        `🍜 Tonight's divine menu: ${menuName}`,
+        ``,
+        `✦ Discover your destiny → ${window.location.href}`,
+        `#TheOracle #KFortune #KPop #운세`
+    ].join('\n');
+
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+    window.open(twitterUrl, '_blank', 'noopener,noreferrer');
+
+    // GA4: share 이벤트
+    trackEvent('share', { method: 'twitter', content_type: 'fortune_result' });
+}
+
+// ── 링크 복사 ──
+function copyLink() {
+    const btn = document.getElementById('copy-btn');
+    navigator.clipboard.writeText(window.location.href).then(() => {
+        btn.textContent = '✓ Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+            btn.textContent = '✦ Copy Link';
+            btn.classList.remove('copied');
+        }, 2000);
+    }).catch(() => {
+        // 구형 브라우저 폴백
+        const ta = document.createElement('textarea');
+        ta.value = window.location.href;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        btn.textContent = '✓ Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+            btn.textContent = '✦ Copy Link';
+            btn.classList.remove('copied');
+        }, 2000);
+    });
+
+    trackEvent('share', { method: 'copy_link', content_type: 'page_url' });
+}
+
+// ── 테마 토글 ──
 function toggleTheme() {
     const currentTheme = document.documentElement.getAttribute('data-theme');
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
     updateThemeButton(newTheme);
+    trackEvent('theme_toggle', { theme: newTheme });
 }
 
 function updateThemeButton(theme) {
     const btn = document.getElementById('theme-btn');
-    if (btn) {
-        btn.textContent = theme === 'light' ? 'DARK' : 'LIGHT';
-    }
+    if (btn) btn.textContent = theme === 'light' ? 'DARK' : 'LIGHT';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
     updateThemeButton(savedTheme);
+
+    // 별 생성
+    const container = document.querySelector('.stars-container');
+    if (container) {
+        for (let i = 0; i < 80; i++) {
+            const star = document.createElement('div');
+            star.style.cssText = `
+                position: absolute;
+                width: ${Math.random() * 2 + 1}px;
+                height: ${Math.random() * 2 + 1}px;
+                background: ${Math.random() > 0.5 ? '#c9a8ff' : '#ff9ec4'};
+                border-radius: 50%;
+                left: ${Math.random() * 100}%;
+                top: ${Math.random() * 100}%;
+                opacity: ${Math.random() * 0.6 + 0.1};
+                animation: twinkle ${Math.random() * 4 + 2}s ease-in-out infinite alternate;
+            `;
+            container.appendChild(star);
+        }
+
+        // 별 반짝임 keyframes
+        if (!document.getElementById('twinkle-style')) {
+            const style = document.createElement('style');
+            style.id = 'twinkle-style';
+            style.textContent = `
+                @keyframes twinkle {
+                    from { opacity: 0.1; transform: scale(1); }
+                    to   { opacity: 0.7; transform: scale(1.4); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    }
 });
