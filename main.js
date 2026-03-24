@@ -2,6 +2,7 @@
 let currentLang = 'en';
 let lastSeed    = null;
 let lastInputs  = null;
+let menuIsOpen  = false;   // DOM 대신 플래그로 메뉴 열림 상태 추적
 
 function t() { return TRANSLATIONS[currentLang]; }
 
@@ -312,6 +313,7 @@ function getFortune() {
 
     lastSeed   = seed;
     lastInputs = { y, m, d, mbti };
+    menuIsOpen = false;   // 새 운세 조회 시 메뉴 상태 초기화
     renderFortune(lastInputs, seed);
 }
 
@@ -331,8 +333,6 @@ function renderFortune({ y, m, d, mbti }, seed) {
     const color = luckyColors[colorIdx];
     const idol  = idolEnergies[idolIdx];
     const vibe  = kpopVibes[vibeIdx];
-
-    const alreadyOpen = document.getElementById('menu-recommendation')?.innerHTML.trim() !== '';
 
     document.getElementById('display-area').innerHTML = `
         <div class="fortune-container">
@@ -365,22 +365,28 @@ function renderFortune({ y, m, d, mbti }, seed) {
         </div>
     `;
 
-    // 언어 전환 시 메뉴가 이미 열려 있었으면 자동으로 다시 표시
-    if (alreadyOpen) revealMenu(seed);
+    // 메뉴가 이미 열려 있었으면 새 언어로 즉시 재렌더링
+    if (menuIsOpen) renderMenu(seed);
 }
 
-// ── 메뉴 공개 ──
+// ── 메뉴 공개 (사용자 클릭) ──
 function revealMenu(seed) {
+    if (menuIsOpen) return;   // 이미 열려 있으면 무시
+    menuIsOpen = true;
+    renderMenu(seed);
+}
+
+// ── 메뉴 실제 렌더링 (언어 전환 재렌더 포함) ──
+function renderMenu(seed) {
     const menuArea = document.getElementById('menu-recommendation');
     if (!menuArea) return;
-    if (menuArea.innerHTML.trim() !== '') return;
 
     const tr   = t();
-    const mIdx = (seed + new Date().getHours() * 13) % dinnerMenus.length;
+    const mIdx = (seed + new Date().getHours() * 13) % tr.menus.length;
     const rIdx = (seed + new Date().getHours() * 7)  % tr.wittyReasons.length;
 
-    const menuName = tr.menus[mIdx];
-    const reason   = tr.wittyReasons[rIdx];
+    const menuName = tr.menus[mIdx] || tr.menus[0];
+    const reason   = tr.wittyReasons[rIdx] || tr.wittyReasons[0];
 
     trackEvent('menu_revealed', { menu_name: menuName, lang: currentLang });
 
