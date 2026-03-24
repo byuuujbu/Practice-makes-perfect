@@ -3,6 +3,113 @@ let currentLang = 'ko';
 let lastSeed    = null;
 let lastInputs  = null;
 let menuIsOpen  = false;   // DOM 대신 플래그로 메뉴 열림 상태 추적
+let currentTab  = 'fortune'; // 현재 활성 탭
+
+// ── 아이돌 목록 ──
+const IDOLS = [
+    { group: 'BTS',         name: 'RM' },
+    { group: 'BTS',         name: 'Jin' },
+    { group: 'BTS',         name: 'Suga' },
+    { group: 'BTS',         name: 'j-hope' },
+    { group: 'BTS',         name: 'Jimin' },
+    { group: 'BTS',         name: 'V' },
+    { group: 'BTS',         name: 'Jungkook' },
+    { group: 'BLACKPINK',   name: 'Jennie' },
+    { group: 'BLACKPINK',   name: 'Lisa' },
+    { group: 'BLACKPINK',   name: 'Rosé' },
+    { group: 'BLACKPINK',   name: 'Jisoo' },
+    { group: 'aespa',       name: 'Karina' },
+    { group: 'aespa',       name: 'Giselle' },
+    { group: 'aespa',       name: 'Winter' },
+    { group: 'aespa',       name: 'Ningning' },
+    { group: 'NewJeans',    name: 'Minji' },
+    { group: 'NewJeans',    name: 'Hanni' },
+    { group: 'NewJeans',    name: 'Danielle' },
+    { group: 'NewJeans',    name: 'Haerin' },
+    { group: 'NewJeans',    name: 'Hyein' },
+    { group: 'Stray Kids',  name: 'Bang Chan' },
+    { group: 'Stray Kids',  name: 'Lee Know' },
+    { group: 'Stray Kids',  name: 'Changbin' },
+    { group: 'Stray Kids',  name: 'Hyunjin' },
+    { group: 'Stray Kids',  name: 'Han' },
+    { group: 'Stray Kids',  name: 'Felix' },
+    { group: 'Stray Kids',  name: 'Seungmin' },
+    { group: 'Stray Kids',  name: 'I.N' },
+    { group: 'IVE',         name: 'Yujin' },
+    { group: 'IVE',         name: 'Gaeul' },
+    { group: 'IVE',         name: 'Rei' },
+    { group: 'IVE',         name: 'Wonyoung' },
+    { group: 'IVE',         name: 'Liz' },
+    { group: 'IVE',         name: 'Leeseo' },
+    { group: 'TXT',         name: 'Yeonjun' },
+    { group: 'TXT',         name: 'Soobin' },
+    { group: 'TXT',         name: 'Beomgyu' },
+    { group: 'TXT',         name: 'Taehyun' },
+    { group: 'TXT',         name: 'Huening Kai' },
+    { group: 'ENHYPEN',     name: 'Jungwon' },
+    { group: 'ENHYPEN',     name: 'Heeseung' },
+    { group: 'ENHYPEN',     name: 'Jay' },
+    { group: 'ENHYPEN',     name: 'Jake' },
+    { group: 'ENHYPEN',     name: 'Sunghoon' },
+    { group: 'ENHYPEN',     name: 'Sunoo' },
+    { group: 'ENHYPEN',     name: 'Ni-ki' },
+    { group: '(G)I-DLE',   name: 'Miyeon' },
+    { group: '(G)I-DLE',   name: 'Minnie' },
+    { group: '(G)I-DLE',   name: 'Soyeon' },
+    { group: '(G)I-DLE',   name: 'Yuqi' },
+    { group: '(G)I-DLE',   name: 'Shuhua' },
+    { group: 'Seventeen',   name: 'S.Coups' },
+    { group: 'Seventeen',   name: 'Jeonghan' },
+    { group: 'Seventeen',   name: 'Joshua' },
+    { group: 'Seventeen',   name: 'Jun' },
+    { group: 'Seventeen',   name: 'Hoshi' },
+    { group: 'Seventeen',   name: 'Wonwoo' },
+    { group: 'Seventeen',   name: 'Woozi' },
+    { group: 'Seventeen',   name: 'The8' },
+    { group: 'Seventeen',   name: 'Mingyu' },
+    { group: 'Seventeen',   name: 'DK' },
+    { group: 'Seventeen',   name: 'Seungkwan' },
+    { group: 'Seventeen',   name: 'Vernon' },
+    { group: 'Seventeen',   name: 'Dino' },
+    { group: 'TWICE',       name: 'Nayeon' },
+    { group: 'TWICE',       name: 'Jeongyeon' },
+    { group: 'TWICE',       name: 'Momo' },
+    { group: 'TWICE',       name: 'Sana' },
+    { group: 'TWICE',       name: 'Jihyo' },
+    { group: 'TWICE',       name: 'Mina' },
+    { group: 'TWICE',       name: 'Dahyun' },
+    { group: 'TWICE',       name: 'Chaeyoung' },
+    { group: 'TWICE',       name: 'Tzuyu' },
+    { group: 'EXO',         name: 'Xiumin' },
+    { group: 'EXO',         name: 'Suho' },
+    { group: 'EXO',         name: 'Lay' },
+    { group: 'EXO',         name: 'Baekhyun' },
+    { group: 'EXO',         name: 'Chen' },
+    { group: 'EXO',         name: 'Chanyeol' },
+    { group: 'EXO',         name: 'D.O' },
+    { group: 'EXO',         name: 'Kai' },
+    { group: 'EXO',         name: 'Sehun' },
+];
+
+// ── 그룹 목록 ──
+const GROUPS = [
+    { name: 'BTS',        emoji: '💜' },
+    { name: 'BLACKPINK',  emoji: '🖤' },
+    { name: 'aespa',      emoji: '🤖' },
+    { name: 'NewJeans',   emoji: '🐰' },
+    { name: 'Stray Kids', emoji: '🐺' },
+    { name: 'IVE',        emoji: '🌟' },
+    { name: 'TXT',        emoji: '🌀' },
+    { name: 'ENHYPEN',    emoji: '🌙' },
+    { name: '(G)I-DLE',  emoji: '👑' },
+    { name: 'Seventeen',  emoji: '💎' },
+    { name: 'TWICE',      emoji: '🍭' },
+    { name: 'EXO',        emoji: '🪐' },
+    { name: 'MONSTA X',   emoji: '⚡' },
+    { name: 'GOT7',       emoji: '🕊️' },
+    { name: 'NCT 127',    emoji: '🌐' },
+    { name: 'NCT Dream',  emoji: '💚' },
+];
 
 function t() { return TRANSLATIONS[currentLang]; }
 
@@ -10,13 +117,31 @@ function setLang(lang) {
     currentLang = lang;
     localStorage.setItem('oracle_lang', lang);
     updateLangButtons();
+    // 탭 버튼 텍스트 업데이트
+    updateTabLabels();
     // 결과가 이미 표시중이면 해당 언어로 즉시 재렌더링
-    if (lastSeed !== null && lastInputs !== null) {
-        renderFortune(lastInputs, lastSeed);
+    if (currentTab === 'fortune') {
+        if (lastSeed !== null && lastInputs !== null) {
+            renderFortune(lastInputs, lastSeed);
+        }
+    } else if (currentTab === 'match') {
+        renderMatchTab();
+    } else if (currentTab === 'group') {
+        renderGroupTab();
     }
     // 버튼 텍스트도 현재 언어로
     const btn = document.querySelector('.action-btn');
     if (btn) btn.textContent = t().ui.readBtn;
+}
+
+function updateTabLabels() {
+    const ui = t().ui;
+    const fortuneBtn = document.querySelector('[data-tab="fortune"]');
+    const matchBtn   = document.querySelector('[data-tab="match"]');
+    const groupBtn   = document.querySelector('[data-tab="group"]');
+    if (fortuneBtn) fortuneBtn.textContent = ui.tabFortune;
+    if (matchBtn)   matchBtn.textContent   = ui.tabMatch;
+    if (groupBtn)   groupBtn.textContent   = ui.tabGroup;
 }
 
 function updateLangButtons() {
@@ -276,6 +401,208 @@ function getShopeeLink(menuName) {
     };
 }
 
+// ── 탭 전환 ──
+function switchTab(tabName) {
+    currentTab = tabName;
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === tabName);
+    });
+    document.querySelectorAll('.tab-panel').forEach(panel => {
+        panel.classList.toggle('active', panel.dataset.panel === tabName);
+    });
+    if (tabName === 'match') renderMatchTab();
+    if (tabName === 'group') renderGroupTab();
+}
+
+// ── 궁합 계산 ──
+function calcCompatibility(userSeed, idolName) {
+    let h = 0;
+    for (let i = 0; i < idolName.length; i++) {
+        h = (h * 31 + idolName.charCodeAt(i)) % 1000000;
+    }
+    return ((userSeed ^ h) * 9301 + 49297) % 233280 % 101;
+}
+
+function getCompatTier(score) {
+    const tiers = t().compatTiers;
+    for (const tier of tiers) {
+        if (score >= tier.min) return tier;
+    }
+    return tiers[tiers.length - 1];
+}
+
+// ── 궁합 탭 렌더링 ──
+function renderMatchTab() {
+    const tr = t();
+    const ui = tr.ui;
+
+    // Group idols by group
+    const grouped = {};
+    IDOLS.forEach(idol => {
+        if (!grouped[idol.group]) grouped[idol.group] = [];
+        grouped[idol.group].push(idol.name);
+    });
+
+    let optgroups = '';
+    for (const [groupName, members] of Object.entries(grouped)) {
+        const options = members.map(name =>
+            `<option value="${groupName}|${name}">${name}</option>`
+        ).join('');
+        optgroups += `<optgroup label="${groupName}">${options}</optgroup>`;
+    }
+
+    const matchPanel = document.getElementById('match-panel');
+    if (!matchPanel) return;
+
+    matchPanel.innerHTML = `
+        <div class="tab-content-inner">
+            <div class="tab-section-title">${ui.matchTitle}</div>
+            <div class="idol-selector-wrap">
+                <select id="idol-select" class="idol-select">
+                    <option value="">${ui.matchSelect}</option>
+                    ${optgroups}
+                </select>
+            </div>
+            <button class="action-btn match-btn" onclick="checkCompatibility()">${ui.matchBtn}</button>
+            <div id="compat-result"></div>
+        </div>
+    `;
+}
+
+function checkCompatibility() {
+    const ui = t().ui;
+    if (lastSeed === null) {
+        alert(ui.matchAlert);
+        return;
+    }
+    const select = document.getElementById('idol-select');
+    if (!select || !select.value) {
+        alert(ui.matchAlert);
+        return;
+    }
+    const [groupName, idolName] = select.value.split('|');
+    const fullName = `${groupName} ${idolName}`;
+    const score = calcCompatibility(lastSeed, fullName);
+    const tier = getCompatTier(score);
+
+    const resultDiv = document.getElementById('compat-result');
+    if (!resultDiv) return;
+
+    resultDiv.innerHTML = `
+        <div class="compat-result-card">
+            <div class="compat-idol-name">${groupName} — ${idolName}</div>
+            <div class="compat-label">${ui.matchWith}</div>
+            <div class="compat-score-wrap">
+                <div class="compat-score" id="compat-score-num">0</div>
+                <div class="compat-percent">%</div>
+            </div>
+            <div class="compat-tier-label">${tier.label}</div>
+            <div class="compat-tier-text">${tier.text}</div>
+        </div>
+    `;
+
+    // Animate number
+    let current = 0;
+    const target = score;
+    const increment = Math.max(1, Math.floor(target / 40));
+    const timer = setInterval(() => {
+        current = Math.min(current + increment, target);
+        const el = document.getElementById('compat-score-num');
+        if (el) el.textContent = current;
+        if (current >= target) clearInterval(timer);
+    }, 30);
+
+    trackEvent('compat_check', { idol: fullName, score, tier: tier.label, lang: currentLang });
+}
+
+// ── 그룹 운세 탭 렌더링 ──
+function renderGroupTab() {
+    const tr = t();
+    const ui = tr.ui;
+
+    const btns = GROUPS.map(g =>
+        `<button class="group-btn" onclick="showGroupFortune('${g.name.replace(/'/g, "\\'")}', '${g.emoji}')">
+            <span class="group-emoji">${g.emoji}</span>
+            <span class="group-name">${g.name}</span>
+        </button>`
+    ).join('');
+
+    const groupPanel = document.getElementById('group-panel');
+    if (!groupPanel) return;
+
+    groupPanel.innerHTML = `
+        <div class="tab-content-inner">
+            <div class="tab-section-title">${ui.groupTitle}</div>
+            <div class="group-grid">${btns}</div>
+            <div id="group-fortune-result"></div>
+        </div>
+    `;
+}
+
+function showGroupFortune(groupName, emoji) {
+    const tr = t();
+    const ui = tr.ui;
+
+    // Seed based on today's date + group name
+    const today = new Date();
+    const dateStr = `${today.getFullYear()}${today.getMonth()}${today.getDate()}${groupName}`;
+    let seed = 0;
+    for (let i = 0; i < dateStr.length; i++) {
+        seed = (seed * 31) + dateStr.charCodeAt(i);
+        seed = seed % 1000000;
+    }
+
+    const kwIdx = seed % tr.keywords.length;
+    const stIdx = Math.floor(seed / 3) % tr.states.length;
+    const adIdx = Math.floor(seed / 7) % tr.advices.length;
+    const fortuneText = tr.fortuneTemplate(tr.keywords[kwIdx], tr.states[stIdx], tr.advices[adIdx]);
+
+    const colorIdx = Math.floor(seed / 11) % luckyColors.length;
+    const color = luckyColors[colorIdx];
+
+    const resultDiv = document.getElementById('group-fortune-result');
+    if (!resultDiv) return;
+
+    // Highlight active group button
+    document.querySelectorAll('.group-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.querySelector('.group-name').textContent === groupName);
+    });
+
+    resultDiv.innerHTML = `
+        <div class="group-fortune-card">
+            <div class="group-fortune-header">
+                <span class="group-fortune-emoji">${emoji}</span>
+                <span class="group-fortune-name">${groupName}</span>
+            </div>
+            <div class="group-fortune-text">"${fortuneText}"</div>
+            <div class="group-fortune-color">
+                <span class="color-dot" style="background:${color.hex}"></span>
+                ${color.emoji} ${color.name}
+            </div>
+        </div>
+    `;
+
+    trackEvent('group_fortune', { group: groupName, lang: currentLang });
+}
+
+// ── 카드 저장 ──
+function downloadCard() {
+    const el = document.getElementById('display-area');
+    if (!el || typeof html2canvas === 'undefined') return;
+    html2canvas(el, {
+        backgroundColor: '#08000f',
+        scale: 2,
+        useCORS: true,
+        logging: false,
+    }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'oracle-reading.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    });
+    trackEvent('save_card', { lang: currentLang });
+}
+
 // ── GA4 이벤트 헬퍼 ──
 function trackEvent(eventName, params = {}) {
     if (typeof gtag === 'function') {
@@ -427,6 +754,9 @@ function renderMenu(seed) {
                 <button class="share-btn copy" id="copy-btn" onclick="copyLink()">
                     ${ui.shareCopy}
                 </button>
+                <button class="share-btn save-card" onclick="downloadCard()">
+                    ${ui.saveCard}
+                </button>
             </div>
         </div>
     `;
@@ -522,6 +852,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentLang = 'ko'; // 기본값: 한국어
     }
     updateLangButtons();
+    updateTabLabels();
     const btn = document.querySelector('.action-btn');
     if (btn) btn.textContent = t().ui.readBtn;
 

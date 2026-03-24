@@ -730,10 +730,311 @@ footer p {
     opacity: 0.4 !important;
 }
 
+/* ── Tab Navigation ── */
+.tab-nav {
+    display: flex;
+    width: 100%;
+    max-width: 440px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 2.5rem;
+    gap: 0;
+}
+
+.tab-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: rgba(201, 168, 255, 0.5);
+    padding: 0.8rem 0.5rem;
+    font-size: 0.85rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: -1px;
+}
+
+.tab-btn:hover {
+    color: var(--accent-color);
+}
+
+.tab-btn.active {
+    color: var(--accent-color);
+    border-bottom: 2px solid var(--accent-color);
+    background: linear-gradient(to bottom, rgba(160, 100, 255, 0.05), transparent);
+}
+
+/* ── Tab Panels ── */
+.tab-panel {
+    display: none;
+    width: 100%;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+.tab-content-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+    padding-top: 0.5rem;
+}
+
+.tab-section-title {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+/* ── Idol Selector (Match Tab) ── */
+.idol-selector-wrap {
+    width: 100%;
+}
+
+.idol-select {
+    width: 100%;
+    background: linear-gradient(135deg, rgba(59, 0, 104, 0.5), rgba(26, 0, 58, 0.6));
+    border: 1px solid var(--accent-color);
+    color: var(--text-color);
+    padding: 1rem 1.2rem;
+    font-size: 1rem;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a8ff' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+}
+
+.idol-select:focus {
+    border-color: var(--accent-pink);
+    box-shadow: 0 0 14px rgba(160, 100, 255, 0.25);
+}
+
+.idol-select option,
+.idol-select optgroup {
+    background: #1a003a;
+    color: var(--text-color);
+}
+
+.match-btn {
+    max-width: 100%;
+}
+
+/* ── Compatibility Result ── */
+.compat-result-card {
+    width: 100%;
+    border: 1px solid var(--border-color);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(59, 0, 104, 0.3), rgba(26, 0, 58, 0.4));
+    animation: fadeIn 0.5s ease-out;
+}
+
+.compat-idol-name {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    color: var(--accent-pink);
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+}
+
+.compat-label {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(201, 168, 255, 0.6);
+    margin-bottom: 1rem;
+}
+
+.compat-score-wrap {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.2rem;
+    margin-bottom: 1rem;
+}
+
+.compat-score {
+    font-family: var(--font-serif);
+    font-size: 5rem;
+    font-weight: 900;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    min-width: 3ch;
+    text-align: center;
+}
+
+.compat-percent {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-top: 0.5rem;
+}
+
+.compat-tier-label {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    margin-bottom: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.compat-tier-text {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.85;
+    line-height: 1.7;
+    max-width: 360px;
+    margin: 0 auto;
+}
+
+/* ── Group Grid (Group Tab) ── */
+.group-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.7rem;
+    width: 100%;
+}
+
+.group-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    background: linear-gradient(135deg, rgba(59, 0, 104, 0.4), rgba(26, 0, 58, 0.5));
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 0.8rem 0.4rem;
+    font-size: 0.72rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.group-btn:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    box-shadow: 0 0 12px rgba(160, 100, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.group-btn.active {
+    border-color: var(--accent-pink);
+    color: var(--accent-pink);
+    background: linear-gradient(135deg, rgba(100, 30, 180, 0.5), rgba(60, 0, 120, 0.6));
+    box-shadow: 0 0 16px rgba(255, 120, 180, 0.25);
+}
+
+.group-emoji {
+    font-size: 1.4rem;
+    line-height: 1;
+}
+
+.group-name {
+    text-align: center;
+    line-height: 1.2;
+}
+
+/* ── Group Fortune Card ── */
+.group-fortune-card {
+    width: 100%;
+    border: 1px solid var(--border-color);
+    padding: 1.8rem 1.5rem;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(59, 0, 104, 0.3), rgba(26, 0, 58, 0.4));
+    animation: fadeIn 0.5s ease-out;
+}
+
+.group-fortune-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-bottom: 1.2rem;
+}
+
+.group-fortune-emoji {
+    font-size: 1.8rem;
+}
+
+.group-fortune-name {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    letter-spacing: 2px;
+}
+
+.group-fortune-text {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--accent-gold);
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+}
+
+.group-fortune-color {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    color: rgba(201, 168, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.color-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+/* ── Save Card Button ── */
+.share-btn.save-card {
+    background: linear-gradient(135deg, rgba(59, 0, 104, 0.5), rgba(26, 0, 58, 0.6));
+    border: 1px solid var(--accent-pink);
+    color: var(--accent-pink);
+}
+
+.share-btn.save-card:hover {
+    background: linear-gradient(135deg, var(--accent-pink), var(--accent-color));
+    color: #08000f;
+    border-color: var(--accent-pink);
+}
+
 /* ── Responsive ── */
 @media (max-width: 600px) {
     .main-title { font-size: 3rem; }
     .app-container { padding: 1.5rem; }
     .fortune-result { font-size: 1.4rem; }
     .menu-name { font-size: 2rem; }
+    .group-grid { grid-template-columns: repeat(3, 1fr); }
+    .compat-score { font-size: 3.5rem; }
 }
