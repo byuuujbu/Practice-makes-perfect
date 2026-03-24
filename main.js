@@ -1,5 +1,5 @@
 // ── 언어 설정 ──
-let currentLang = 'en';
+let currentLang = 'ko';
 let lastSeed    = null;
 let lastInputs  = null;
 let menuIsOpen  = false;   // DOM 대신 플래그로 메뉴 열림 상태 추적
@@ -519,10 +519,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (saved && TRANSLATIONS[saved]) {
         currentLang = saved;
     } else {
-        const bl = navigator.language || '';
-        if (bl.startsWith('id')) currentLang = 'id';
-        else if (bl.startsWith('es')) currentLang = 'es';
-        else currentLang = 'en';
+        currentLang = 'ko'; // 기본값: 한국어
     }
     updateLangButtons();
     const btn = document.querySelector('.action-btn');
