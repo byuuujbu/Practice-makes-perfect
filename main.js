@@ -665,6 +665,7 @@ function renderFortune({ y, m, d, mbti }, seed) {
         <div class="fortune-container">
             <div class="fortune-meta">DESTINY CHART • ${y}.${m}.${d} • ${mbti || 'UNKNOWN'}</div>
             <div class="fortune-result" onclick="revealMenu(${seed})">"${fortuneText}"</div>
+            <div class="fortune-tap-hint">${tr.ui.tapHint}</div>
 
             <div class="kpop-cards">
                 <div class="kcard color-card">
@@ -687,7 +688,6 @@ function renderFortune({ y, m, d, mbti }, seed) {
                 <div class="kpop-vibe-text">${vibe}</div>
             </div>
 
-            <div class="fortune-tap-hint">${tr.ui.tapHint}</div>
             <div id="menu-recommendation"></div>
         </div>
     `;
@@ -707,6 +707,10 @@ function revealMenu(seed) {
 function renderMenu(seed) {
     const menuArea = document.getElementById('menu-recommendation');
     if (!menuArea) return;
+
+    // 힌트 텍스트 숨기기
+    const hint = document.querySelector('.fortune-tap-hint');
+    if (hint) hint.style.display = 'none';
 
     const tr   = t();
     const mIdx = (seed + new Date().getHours() * 13) % tr.menus.length;

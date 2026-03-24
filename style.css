@@ -361,7 +361,8 @@ input:focus {
     color: var(--accent-color);
     opacity: 0.7;
     text-transform: uppercase;
-    margin-bottom: 2rem;
+    margin-top: 0.8rem;
+    margin-bottom: 2.5rem;
 }
 
 /* ── Menu Recommendation ── */
