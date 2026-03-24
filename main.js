@@ -126,7 +126,7 @@ const wittyReasons = [
 // ── Shopee 제휴 설정 ──
 // TODO: affiliate.shopee.co.id (인도네시아) 또는 shopee.com.br/m/afiliados (브라질) 가입 후
 //       발급받은 트래킹 코드로 교체하세요.
-const SHOPEE_AFFILIATE_ID = 'YOUR_SHOPEE_AFFILIATE_ID';
+const SHOPEE_AFFILIATE_ID = '11320731721';
 
 // 타임존 기반 지역 감지 → Shopee 도메인 분기
 function getShopeeConfig() {
