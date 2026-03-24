@@ -74,7 +74,14 @@
         <header>
             <button id="theme-btn" class="theme-toggle" onclick="toggleTheme()">LIGHT</button>
             <div class="logo">THE ORACLE</div>
-            <div class="header-tag">✦ K-Fortune ✦</div>
+            <div class="header-right">
+                <div class="lang-switcher">
+                    <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
+                    <button class="lang-btn" data-lang="id" onclick="setLang('id')">ID</button>
+                    <button class="lang-btn" data-lang="es" onclick="setLang('es')">ES</button>
+                </div>
+                <div class="header-tag">✦ K-Fortune ✦</div>
+            </div>
         </header>
 
         <main class="content">
@@ -117,6 +124,7 @@
         </footer>
     </div>
 
+    <script src="translations.js"></script>
     <script src="main.js"></script>
 </body>
 </html>

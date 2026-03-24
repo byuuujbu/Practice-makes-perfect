@@ -93,6 +93,39 @@ header {
     background-clip: text;
 }
 
+.header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.4rem;
+}
+
+.lang-switcher {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.lang-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 0.25rem 0.55rem;
+    font-size: 0.65rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    opacity: 0.45;
+    transition: all 0.25s ease;
+}
+.lang-btn:hover   { opacity: 0.8; border-color: var(--accent-color); }
+.lang-btn.active  {
+    opacity: 1;
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    background: rgba(201,168,255,0.08);
+}
+
 .header-tag {
     font-size: 0.65rem;
     letter-spacing: 2px;

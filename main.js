@@ -1,3 +1,29 @@
+// ── 언어 설정 ──
+let currentLang = 'en';
+let lastSeed    = null;
+let lastInputs  = null;
+
+function t() { return TRANSLATIONS[currentLang]; }
+
+function setLang(lang) {
+    currentLang = lang;
+    localStorage.setItem('oracle_lang', lang);
+    updateLangButtons();
+    // 결과가 이미 표시중이면 해당 언어로 즉시 재렌더링
+    if (lastSeed !== null && lastInputs !== null) {
+        renderFortune(lastInputs, lastSeed);
+    }
+    // 버튼 텍스트도 현재 언어로
+    const btn = document.querySelector('.action-btn');
+    if (btn) btn.textContent = t().ui.readBtn;
+}
+
+function updateLangButtons() {
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === currentLang);
+    });
+}
+
 // ── K-pop 콘텐츠 데이터 ──
 const luckyColors = [
     { name: 'Cosmic Violet', hex: '#9b59b6', emoji: '💜' },
@@ -263,18 +289,17 @@ function getFortune() {
     const d    = document.getElementById('day').value;
     const w    = document.getElementById('weight').value;
     const mbti = document.getElementById('mbti').value.toUpperCase();
-    const display = document.getElementById('display-area');
 
     if (!y || !m || !d) {
-        alert("생년월일을 입력해주셔야 기운을 읽을 수 있습니다.");
+        alert(t().ui.alertFill);
         return;
     }
 
-    // GA4: fortune_read 이벤트
     trackEvent('fortune_read', {
         has_mbti: mbti.length > 0,
         has_weight: w.length > 0,
-        birth_year: y
+        birth_year: y,
+        lang: currentLang,
     });
 
     const today   = new Date();
@@ -285,13 +310,19 @@ function getFortune() {
         seed = seed % 1000000;
     }
 
-    const kwIdx = seed % keywords.length;
-    const stIdx = Math.floor(seed / 3) % states.length;
-    const adIdx = Math.floor(seed / 7) % advices.length;
+    lastSeed   = seed;
+    lastInputs = { y, m, d, mbti };
+    renderFortune(lastInputs, seed);
+}
 
-    const fortuneText = `일진에 ${keywords[kwIdx]}의 기운이 ${states[stIdx]}, 오늘은 ${advices[adIdx]}`;
+function renderFortune({ y, m, d, mbti }, seed) {
+    const tr = t();
 
-    // K-pop 보강 콘텐츠 계산
+    const kwIdx = seed % tr.keywords.length;
+    const stIdx = Math.floor(seed / 3) % tr.states.length;
+    const adIdx = Math.floor(seed / 7) % tr.advices.length;
+    const fortuneText = tr.fortuneTemplate(tr.keywords[kwIdx], tr.states[stIdx], tr.advices[adIdx]);
+
     const colorIdx = Math.floor(seed / 11) % luckyColors.length;
     const idolIdx  = Math.floor(seed / 13) % idolEnergies.length;
     const vibeIdx  = Math.floor(seed / 17) % kpopVibes.length;
@@ -301,23 +332,25 @@ function getFortune() {
     const idol  = idolEnergies[idolIdx];
     const vibe  = kpopVibes[vibeIdx];
 
-    display.innerHTML = `
+    const alreadyOpen = document.getElementById('menu-recommendation')?.innerHTML.trim() !== '';
+
+    document.getElementById('display-area').innerHTML = `
         <div class="fortune-container">
             <div class="fortune-meta">DESTINY CHART • ${y}.${m}.${d} • ${mbti || 'UNKNOWN'}</div>
             <div class="fortune-result" onclick="revealMenu(${seed})">"${fortuneText}"</div>
 
             <div class="kpop-cards">
                 <div class="kcard color-card">
-                    <div class="kcard-label">Lucky Color</div>
+                    <div class="kcard-label">${tr.ui.luckyColor}</div>
                     <div class="color-swatch" style="background:${color.hex}"></div>
                     <div class="kcard-value">${color.emoji} ${color.name}</div>
                 </div>
                 <div class="kcard number-card">
-                    <div class="kcard-label">Lucky Number</div>
+                    <div class="kcard-label">${tr.ui.luckyNumber}</div>
                     <div class="kcard-big">${luckyNum}</div>
                 </div>
                 <div class="kcard idol-card">
-                    <div class="kcard-label">Your Idol Energy Today</div>
+                    <div class="kcard-label">${tr.ui.idolEnergy}</div>
                     <div class="kcard-idol-name">${idol.idol} ${idol.emoji}</div>
                     <div class="kcard-idol-vibe">${idol.vibe}</div>
                 </div>
@@ -327,38 +360,43 @@ function getFortune() {
                 <div class="kpop-vibe-text">${vibe}</div>
             </div>
 
-            <div class="fortune-tap-hint">✦ tap the oracle to reveal tonight's divine menu ✦</div>
+            <div class="fortune-tap-hint">${tr.ui.tapHint}</div>
             <div id="menu-recommendation"></div>
         </div>
     `;
+
+    // 언어 전환 시 메뉴가 이미 열려 있었으면 자동으로 다시 표시
+    if (alreadyOpen) revealMenu(seed);
 }
 
 // ── 메뉴 공개 ──
 function revealMenu(seed) {
     const menuArea = document.getElementById('menu-recommendation');
-    if (menuArea.innerHTML.trim() !== '') return; // 이미 보임
+    if (!menuArea) return;
+    if (menuArea.innerHTML.trim() !== '') return;
 
+    const tr   = t();
     const mIdx = (seed + new Date().getHours() * 13) % dinnerMenus.length;
-    const rIdx = (seed + new Date().getHours() * 7)  % wittyReasons.length;
+    const rIdx = (seed + new Date().getHours() * 7)  % tr.wittyReasons.length;
 
-    const menuName = dinnerMenus[mIdx];
-    const reason   = wittyReasons[rIdx];
+    const menuName = tr.menus[mIdx];
+    const reason   = tr.wittyReasons[rIdx];
 
-    // GA4: menu_revealed 이벤트
-    trackEvent('menu_revealed', { menu_name: menuName });
+    trackEvent('menu_revealed', { menu_name: menuName, lang: currentLang });
 
     const shopee = getShopeeLink(menuName);
 
+    const ui = tr.ui;
     menuArea.innerHTML = `
         <div class="menu-content">
             <div class="witty-reason">${reason}</div>
-            <span class="menu-label">Heavenly Menu Recommendation</span>
+            <span class="menu-label">${ui.menuLabel}</span>
             <span class="menu-name">${menuName}</span>
             <div class="menu-decoration">✧</div>
         </div>
 
         <div class="shopee-section">
-            <p class="shopee-hint">The oracle has spoken. Now make it real. ✨</p>
+            <p class="shopee-hint">${ui.shopeeHint}</p>
             <a class="shopee-btn"
                href="${shopee.url}"
                target="_blank"
@@ -366,22 +404,22 @@ function revealMenu(seed) {
                onclick="trackShopeeClick('${menuName}')">
                 <span class="shopee-icon">🛍️</span>
                 <span class="shopee-text">
-                    <span class="shopee-main">Get Korean ingredients on ${shopee.label}</span>
+                    <span class="shopee-main">${ui.shopeeMain(menuName, shopee.label)}</span>
                     <span class="shopee-sub">K-food · K-snacks · Fast delivery</span>
                 </span>
                 <span class="shopee-arrow">→</span>
             </a>
-            <p class="shopee-disclosure">* Affiliate link — we may earn a small commission at no extra cost to you.</p>
+            <p class="shopee-disclosure">${ui.shopeeDisclosure}</p>
         </div>
 
         <div class="share-section">
-            <span class="share-label">✦ share your fate ✦</span>
+            <span class="share-label">${ui.shareLabel}</span>
             <div class="share-buttons">
                 <button class="share-btn twitter" onclick="shareOnTwitter('${menuName}')">
-                    𝕏 Share on X
+                    ${ui.shareTwitter}
                 </button>
                 <button class="share-btn copy" id="copy-btn" onclick="copyLink()">
-                    ✦ Copy Link
+                    ${ui.shareCopy}
                 </button>
             </div>
         </div>
@@ -426,24 +464,23 @@ function shareOnTwitter(menuName) {
 function copyLink() {
     const btn = document.getElementById('copy-btn');
     navigator.clipboard.writeText(window.location.href).then(() => {
-        btn.textContent = '✓ Copied!';
+        btn.textContent = t().ui.copied;
         btn.classList.add('copied');
         setTimeout(() => {
-            btn.textContent = '✦ Copy Link';
+            btn.textContent = t().ui.shareCopy;
             btn.classList.remove('copied');
         }, 2000);
     }).catch(() => {
-        // 구형 브라우저 폴백
         const ta = document.createElement('textarea');
         ta.value = window.location.href;
         document.body.appendChild(ta);
         ta.select();
         document.execCommand('copy');
         document.body.removeChild(ta);
-        btn.textContent = '✓ Copied!';
+        btn.textContent = t().ui.copied;
         btn.classList.add('copied');
         setTimeout(() => {
-            btn.textContent = '✦ Copy Link';
+            btn.textContent = t().ui.shareCopy;
             btn.classList.remove('copied');
         }, 2000);
     });
@@ -470,6 +507,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
     updateThemeButton(savedTheme);
+
+    // 언어 초기화: 저장값 → 브라우저 언어 자동감지 → 기본 영어
+    const saved = localStorage.getItem('oracle_lang');
+    if (saved && TRANSLATIONS[saved]) {
+        currentLang = saved;
+    } else {
+        const bl = navigator.language || '';
+        if (bl.startsWith('id')) currentLang = 'id';
+        else if (bl.startsWith('es')) currentLang = 'es';
+        else currentLang = 'en';
+    }
+    updateLangButtons();
+    const btn = document.querySelector('.action-btn');
+    if (btn) btn.textContent = t().ui.readBtn;
 
     // 별 생성
     const container = document.querySelector('.stars-container');
