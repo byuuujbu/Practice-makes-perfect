@@ -123,6 +123,16 @@ const wittyReasons = [
     "자, 이제 행운을 한 입 크게 베어 물 차례입니다!"
 ];
 
+// ── 쿠팡파트너스 설정 ──
+// TODO: partners.coupang.com 가입 후 발급받은 추적 코드로 교체
+const COUPANG_TRACKING_CODE = 'YOUR_TRACKING_CODE';
+
+function getCoupangLink(menuName) {
+    // 밀키트 검색 우선 → 없으면 재료로 fallback되므로 밀키트 키워드가 최고 전환율
+    const query = encodeURIComponent(menuName + ' 밀키트');
+    return `https://www.coupang.com/np/search?q=${query}&affiliate=true&src=${COUPANG_TRACKING_CODE}`;
+}
+
 // ── GA4 이벤트 헬퍼 ──
 function trackEvent(eventName, params = {}) {
     if (typeof gtag === 'function') {
@@ -189,6 +199,8 @@ function revealMenu(seed) {
     // GA4: menu_revealed 이벤트
     trackEvent('menu_revealed', { menu_name: menuName });
 
+    const coupangUrl = getCoupangLink(menuName);
+
     menuArea.innerHTML = `
         <div class="menu-content">
             <div class="witty-reason">${reason}</div>
@@ -196,6 +208,24 @@ function revealMenu(seed) {
             <span class="menu-name">${menuName}</span>
             <div class="menu-decoration">✧</div>
         </div>
+
+        <div class="coupang-section">
+            <p class="coupang-hint">오늘의 운명이 정해졌다면, 재료도 운명처럼 빠르게.</p>
+            <a class="coupang-btn"
+               href="${coupangUrl}"
+               target="_blank"
+               rel="noopener noreferrer sponsored"
+               onclick="trackCoupangClick('${menuName}')">
+                <span class="coupang-icon">🛒</span>
+                <span class="coupang-text">
+                    <span class="coupang-main">${menuName} 밀키트 보러가기</span>
+                    <span class="coupang-sub">쿠팡에서 바로 주문 · 로켓배송</span>
+                </span>
+                <span class="coupang-arrow">→</span>
+            </a>
+            <p class="coupang-disclosure">* 이 링크는 제휴 마케팅 링크로, 구매 시 소정의 수수료가 발생할 수 있습니다.</p>
+        </div>
+
         <div class="share-section">
             <span class="share-label">✦ share your fate ✦</span>
             <div class="share-buttons">
@@ -208,6 +238,15 @@ function revealMenu(seed) {
             </div>
         </div>
     `;
+}
+
+// ── 쿠팡 클릭 추적 ──
+function trackCoupangClick(menuName) {
+    trackEvent('coupang_click', {
+        menu_name: menuName,
+        link_type: 'meal_kit',
+        affiliate: 'coupang_partners'
+    });
 }
 
 // ── Twitter / X 공유 ──
