@@ -353,6 +353,125 @@ input:focus {
     opacity: 0.4;
 }
 
+/* ── K-pop Cards ── */
+.kpop-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    gap: 0.75rem;
+    margin: 2rem 0 1.5rem;
+}
+
+.kcard {
+    border: 1px solid var(--border-color);
+    padding: 1.2rem 1rem;
+    background: linear-gradient(135deg, rgba(59,0,104,0.2), rgba(26,0,58,0.25));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: center;
+    animation: fadeIn 0.8s ease-out 0.3s both;
+}
+
+.kcard-label {
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent-pink);
+    opacity: 0.8;
+}
+
+.color-swatch {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.15);
+    box-shadow: 0 0 12px rgba(201,168,255,0.3);
+}
+
+.kcard-value {
+    font-size: 0.78rem;
+    color: var(--text-color);
+    opacity: 0.9;
+    font-weight: 400;
+}
+
+.kcard-big {
+    font-family: var(--font-serif);
+    font-size: 2.4rem;
+    font-style: italic;
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+}
+
+.idol-card {
+    align-items: flex-start;
+    text-align: left;
+}
+
+.kcard-idol-name {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    letter-spacing: 0.5px;
+}
+
+.kcard-idol-vibe {
+    font-size: 0.75rem;
+    color: var(--text-color);
+    opacity: 0.7;
+    line-height: 1.5;
+    font-style: italic;
+}
+
+/* ── K-pop Vibe Box ── */
+.kpop-vibe-box {
+    border-left: 2px solid var(--accent-pink);
+    padding: 0.8rem 1.2rem;
+    margin: 0 0 2rem;
+    background: rgba(255,158,196,0.05);
+    animation: fadeIn 0.8s ease-out 0.5s both;
+}
+
+.kpop-vibe-text {
+    font-size: 0.88rem;
+    color: var(--text-color);
+    opacity: 0.85;
+    font-style: italic;
+    line-height: 1.6;
+    text-align: left;
+}
+
+/* ── Footer Privacy Link ── */
+.footer-privacy {
+    margin-top: 0.8rem;
+}
+.footer-privacy a {
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    color: var(--accent-color);
+    opacity: 0.4;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+.footer-privacy a:hover { opacity: 0.8; }
+
+/* ── Responsive: K-pop Cards ── */
+@media (max-width: 600px) {
+    .kpop-cards {
+        grid-template-columns: 1fr 1fr;
+    }
+    .idol-card {
+        grid-column: 1 / -1;
+        align-items: center;
+        text-align: center;
+    }
+}
+
 /* ── Shopee Section ── */
 .shopee-section {
     margin-top: 2.5rem;

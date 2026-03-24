@@ -1,3 +1,53 @@
+// ── K-pop 콘텐츠 데이터 ──
+const luckyColors = [
+    { name: 'Cosmic Violet', hex: '#9b59b6', emoji: '💜' },
+    { name: 'Rose Quartz',   hex: '#f4a7b9', emoji: '🌸' },
+    { name: 'Midnight Blue', hex: '#2c3e7a', emoji: '🌙' },
+    { name: 'Starlight Gold',hex: '#d4af37', emoji: '✨' },
+    { name: 'Cherry Blossom',hex: '#ffb7c5', emoji: '🌺' },
+    { name: 'Aura White',    hex: '#f0e6ff', emoji: '🤍' },
+    { name: 'Neon Lavender', hex: '#c9a8ff', emoji: '💫' },
+    { name: 'Sunset Coral',  hex: '#ff6b6b', emoji: '🍑' },
+    { name: 'Sage Green',    hex: '#7fb069', emoji: '🍃' },
+    { name: 'Powder Blue',   hex: '#a8d8ea', emoji: '🩵' },
+];
+
+const idolEnergies = [
+    { idol: 'BTS RM',        vibe: 'Deep thinker energy. Read something meaningful today.',      emoji: '📚', group: 'BTS' },
+    { idol: 'BTS Jimin',     vibe: 'Graceful & emotional. Your feelings are valid today.',       emoji: '🌙', group: 'BTS' },
+    { idol: 'BTS V',         vibe: 'Artistic & free-spirited. Express yourself boldly.',         emoji: '🎨', group: 'BTS' },
+    { idol: 'BTS Jungkook',  vibe: 'Golden energy. Whatever you try today, you will shine.',     emoji: '⭐', group: 'BTS' },
+    { idol: 'BTS Suga',      vibe: 'Quiet intensity. Rest is productive too.',                   emoji: '🎵', group: 'BTS' },
+    { idol: 'BTS j-hope',    vibe: 'Pure sunshine energy. Spread your light today.',             emoji: '☀️', group: 'BTS' },
+    { idol: 'BTS Jin',       vibe: 'Worldwide handsome energy. Confidence is your power.',       emoji: '💎', group: 'BTS' },
+    { idol: 'BLACKPINK Jennie', vibe: 'Boss energy. Walk like you own the universe.',            emoji: '👑', group: 'BLACKPINK' },
+    { idol: 'BLACKPINK Lisa',   vibe: 'Unstoppable energy. Dance through your challenges.',      emoji: '🔥', group: 'BLACKPINK' },
+    { idol: 'BLACKPINK Rosé',   vibe: 'Poetic energy. Find beauty in small things today.',       emoji: '🌹', group: 'BLACKPINK' },
+    { idol: 'BLACKPINK Jisoo',  vibe: 'Pure charm energy. Be kind — it will return to you.',    emoji: '🌸', group: 'BLACKPINK' },
+    { idol: 'aespa Karina',     vibe: 'Main character energy. You are the protagonist today.',   emoji: '🤖', group: 'aespa' },
+    { idol: 'aespa Winter',     vibe: 'Cold exterior, warm heart. Someone needs your warmth.',   emoji: '❄️', group: 'aespa' },
+    { idol: 'NewJeans Hanni',   vibe: 'Cool & effortless energy. Go at your own pace.',          emoji: '🐰', group: 'NewJeans' },
+    { idol: 'NewJeans Minji',   vibe: 'Natural leader energy. Trust your instincts today.',      emoji: '🦋', group: 'NewJeans' },
+    { idol: 'IVE Wonyoung',     vibe: 'Iconic energy. Stand tall — you were born for this.',    emoji: '💫', group: 'IVE' },
+    { idol: 'Stray Kids Felix', vibe: 'Warm & powerful energy. Your passion is contagious.',    emoji: '🦊', group: 'Stray Kids' },
+    { idol: '(G)I-DLE Soyeon', vibe: 'Creative genius energy. Make something today.',           emoji: '🎤', group: '(G)I-DLE' },
+    { idol: 'TXT Yeonjun',      vibe: 'Trendsetter energy. Be unapologetically yourself.',      emoji: '🌀', group: 'TXT' },
+    { idol: 'ENHYPEN Sunghoon', vibe: 'Elegant & precise energy. Details matter today.',        emoji: '⛸️', group: 'ENHYPEN' },
+];
+
+const kpopVibes = [
+    "Your aura today: main character of a K-drama. No skipping this episode. 🎬",
+    "The universe said: you're giving idol-on-comeback energy today. 💿",
+    "Today's concept: mysterious and untouchable. Very fourth-gen of you. ✨",
+    "Your energy matches a fan-favorite b-side track. Underrated but legendary. 🎵",
+    "The stars aligned and said: this is your fancam moment. Own it. 📸",
+    "Today you're the center of the universe's choreography. Don't miss your cue. 💃",
+    "Your vibe: debut stage energy. Nervous but make it look flawless. 🌟",
+    "The oracle detects: you're the dark horse of today. Surprise everyone. 🐎",
+    "Today's energy: fan meet energy. Warm, genuine, unforgettable. 🤝",
+    "You're giving World Tour headline energy. The stage is yours. 🌍",
+];
+
 // 운세 구성 요소
 const keywords = ["용신", "희신", "합", "충", "파", "해", "귀인", "록", "살", "공망", "비견", "겁재", "식신", "상관", "편재", "정재", "편관", "정관", "편인", "정인"];
 const states = ["강성하니", "서리니", "비치니", "머무니", "맴도니"];
@@ -241,11 +291,43 @@ function getFortune() {
 
     const fortuneText = `일진에 ${keywords[kwIdx]}의 기운이 ${states[stIdx]}, 오늘은 ${advices[adIdx]}`;
 
+    // K-pop 보강 콘텐츠 계산
+    const colorIdx = Math.floor(seed / 11) % luckyColors.length;
+    const idolIdx  = Math.floor(seed / 13) % idolEnergies.length;
+    const vibeIdx  = Math.floor(seed / 17) % kpopVibes.length;
+    const luckyNum = (seed % 99) + 1;
+
+    const color = luckyColors[colorIdx];
+    const idol  = idolEnergies[idolIdx];
+    const vibe  = kpopVibes[vibeIdx];
+
     display.innerHTML = `
         <div class="fortune-container">
             <div class="fortune-meta">DESTINY CHART • ${y}.${m}.${d} • ${mbti || 'UNKNOWN'}</div>
             <div class="fortune-result" onclick="revealMenu(${seed})">"${fortuneText}"</div>
-            <div class="fortune-tap-hint">✦ tap to reveal tonight's divine menu ✦</div>
+
+            <div class="kpop-cards">
+                <div class="kcard color-card">
+                    <div class="kcard-label">Lucky Color</div>
+                    <div class="color-swatch" style="background:${color.hex}"></div>
+                    <div class="kcard-value">${color.emoji} ${color.name}</div>
+                </div>
+                <div class="kcard number-card">
+                    <div class="kcard-label">Lucky Number</div>
+                    <div class="kcard-big">${luckyNum}</div>
+                </div>
+                <div class="kcard idol-card">
+                    <div class="kcard-label">Your Idol Energy Today</div>
+                    <div class="kcard-idol-name">${idol.idol} ${idol.emoji}</div>
+                    <div class="kcard-idol-vibe">${idol.vibe}</div>
+                </div>
+            </div>
+
+            <div class="kpop-vibe-box">
+                <div class="kpop-vibe-text">${vibe}</div>
+            </div>
+
+            <div class="fortune-tap-hint">✦ tap the oracle to reveal tonight's divine menu ✦</div>
             <div id="menu-recommendation"></div>
         </div>
     `;
