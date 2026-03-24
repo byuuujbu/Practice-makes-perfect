@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://byuuujbu.github.io/Practice-makes-perfect/sitemap.xml
+Sitemap: https://linefortune.com/sitemap.xml
