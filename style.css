@@ -353,8 +353,8 @@ input:focus {
     opacity: 0.4;
 }
 
-/* ── Coupang Section ── */
-.coupang-section {
+/* ── Shopee Section ── */
+.shopee-section {
     margin-top: 2.5rem;
     padding: 2rem;
     border: 1px solid var(--border-color);
@@ -362,7 +362,7 @@ input:focus {
     animation: fadeIn 0.8s ease-out 0.2s both;
 }
 
-.coupang-hint {
+.shopee-hint {
     font-size: 0.82rem;
     color: var(--text-color);
     opacity: 0.65;
@@ -371,7 +371,7 @@ input:focus {
     letter-spacing: 0.5px;
 }
 
-.coupang-btn {
+.shopee-btn {
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -385,26 +385,26 @@ input:focus {
     transition: all 0.3s ease;
     text-align: left;
 }
-.coupang-btn:hover {
+.shopee-btn:hover {
     background: linear-gradient(135deg, rgba(201,168,255,0.22), rgba(255,158,196,0.15));
     border-color: var(--accent-pink);
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(160,100,255,0.15);
 }
 
-.coupang-icon {
+.shopee-icon {
     font-size: 1.5rem;
     flex-shrink: 0;
 }
 
-.coupang-text {
+.shopee-text {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
 }
 
-.coupang-main {
+.shopee-main {
     font-family: var(--font-serif);
     font-size: 1rem;
     font-weight: 700;
@@ -412,7 +412,7 @@ input:focus {
     letter-spacing: 0.5px;
 }
 
-.coupang-sub {
+.shopee-sub {
     font-size: 0.7rem;
     letter-spacing: 1.5px;
     color: var(--accent-pink);
@@ -420,19 +420,19 @@ input:focus {
     text-transform: uppercase;
 }
 
-.coupang-arrow {
+.shopee-arrow {
     font-size: 1.2rem;
     color: var(--accent-pink);
     opacity: 0.7;
     transition: transform 0.3s ease;
     flex-shrink: 0;
 }
-.coupang-btn:hover .coupang-arrow {
+.shopee-btn:hover .shopee-arrow {
     transform: translateX(4px);
     opacity: 1;
 }
 
-.coupang-disclosure {
+.shopee-disclosure {
     margin-top: 0.8rem;
     font-size: 0.6rem;
     color: var(--text-color);

@@ -123,14 +123,80 @@ const wittyReasons = [
     "자, 이제 행운을 한 입 크게 베어 물 차례입니다!"
 ];
 
-// ── 쿠팡파트너스 설정 ──
-// TODO: partners.coupang.com 가입 후 발급받은 추적 코드로 교체
-const COUPANG_TRACKING_CODE = 'YOUR_TRACKING_CODE';
+// ── Shopee 제휴 설정 ──
+// TODO: affiliate.shopee.co.id (인도네시아) 또는 shopee.com.br/m/afiliados (브라질) 가입 후
+//       발급받은 트래킹 코드로 교체하세요.
+const SHOPEE_AFFILIATE_ID = 'YOUR_SHOPEE_AFFILIATE_ID';
 
-function getCoupangLink(menuName) {
-    // 밀키트 검색 우선 → 없으면 재료로 fallback되므로 밀키트 키워드가 최고 전환율
-    const query = encodeURIComponent(menuName + ' 밀키트');
-    return `https://www.coupang.com/np/search?q=${query}&affiliate=true&src=${COUPANG_TRACKING_CODE}`;
+// 타임존 기반 지역 감지 → Shopee 도메인 분기
+function getShopeeConfig() {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    if (tz.includes('Jakarta') || tz.includes('Makassar') || tz.includes('Jayapura'))
+        return { domain: 'shopee.co.id',   lang: 'id', label: 'Shopee Indonesia' };
+    if (tz.includes('Sao_Paulo') || tz.includes('Fortaleza') || tz.includes('Manaus') || tz.includes('Belem'))
+        return { domain: 'shopee.com.br',  lang: 'pt', label: 'Shopee Brasil' };
+    if (tz.includes('Santiago'))
+        return { domain: 'shopee.cl',      lang: 'es', label: 'Shopee Chile' };
+    if (tz.includes('Bogota'))
+        return { domain: 'shopee.com.co',  lang: 'es', label: 'Shopee Colombia' };
+    if (tz.includes('Manila'))
+        return { domain: 'shopee.ph',      lang: 'en', label: 'Shopee Philippines' };
+    if (tz.includes('Kuala_Lumpur'))
+        return { domain: 'shopee.com.my',  lang: 'en', label: 'Shopee Malaysia' };
+    if (tz.includes('Bangkok'))
+        return { domain: 'shopee.co.th',   lang: 'th', label: 'Shopee Thailand' };
+    if (tz.includes('Ho_Chi_Minh') || tz.includes('Hanoi'))
+        return { domain: 'shopee.vn',      lang: 'vi', label: 'Shopee Vietnam' };
+    if (tz.includes('Singapore'))
+        return { domain: 'shopee.sg',      lang: 'en', label: 'Shopee Singapore' };
+    // 기본값: 인도네시아 (최대 시장)
+    return { domain: 'shopee.co.id', lang: 'id', label: 'Shopee' };
+}
+
+// 메뉴 유형 → Shopee 검색 키워드 매핑
+// K-pop 팬들이 실제로 구매하는 한국 식품 카테고리 기준
+const MENU_KEYWORD_MAP = {
+    ramen: {
+        menus: ['라멘', '짬뽕', '쌀국수', '탄탄면', '해물 칼국수', '들깨 수제비', '팟타이', '오징어 소면', '소바', '분짜'],
+        keyword: { id: 'ramen korea buldak', pt: 'ramen coreano buldak', es: 'ramen coreano', en: 'korean ramen buldak' }
+    },
+    bbq: {
+        menus: ['삼겹살', '불고기 전골', '장어 구이', '고등어 구이', '조개구이', '양갈비', '오리 주물럭', '닭갈비', '양꼬치'],
+        keyword: { id: 'bumbu bbq korea bulgogi', pt: 'molho bbq coreano bulgogi', es: 'salsa bbq coreana', en: 'korean bbq sauce bulgogi' }
+    },
+    rice: {
+        menus: ['비빔밥', '연어 덮밥', '규동', '카츠동', '사케동', '곤드레밥', '우렁 쌈밥', '나시고랭', '회덮밥', '육회 비빔밥', '오므라이스'],
+        keyword: { id: 'bibimbap kit makanan korea', pt: 'kit bibimbap coreano', es: 'kit bibimbap coreano', en: 'bibimbap korean food kit' }
+    },
+    fried: {
+        menus: ['후라이드 치킨', '치킨', '수제 돈가스', '치즈 돈가스', '생선까스', '텐동', '꿔바로우'],
+        keyword: { id: 'bumbu ayam goreng korea', pt: 'tempero frango coreano', es: 'condimento pollo coreano', en: 'korean fried chicken mix' }
+    },
+    snack: {
+        menus: ['떡볶이', '해물파전', '김치전', '타코', '베이글'],
+        keyword: { id: 'tteokbokki snack korea', pt: 'tteokbokki snack coreano', es: 'tteokbokki snack coreano', en: 'tteokbokki korean snack' }
+    },
+};
+
+function getShopeeKeyword(menuName, lang) {
+    for (const cat of Object.values(MENU_KEYWORD_MAP)) {
+        if (cat.menus.some(m => menuName.includes(m.replace(' ', '')) || menuName === m)) {
+            return cat.keyword[lang] || cat.keyword['en'];
+        }
+    }
+    // 기본: 한국 식품 스낵
+    const defaults = { id: 'makanan korea snack kpop', pt: 'comida coreana snack kpop', es: 'comida coreana snack kpop', en: 'korean food snack kpop' };
+    return defaults[lang] || defaults['en'];
+}
+
+function getShopeeLink(menuName) {
+    const config  = getShopeeConfig();
+    const keyword = getShopeeKeyword(menuName, config.lang);
+    const query   = encodeURIComponent(keyword);
+    return {
+        url:   `https://${config.domain}/search?keyword=${query}&af_source=${SHOPEE_AFFILIATE_ID}`,
+        label: config.label
+    };
 }
 
 // ── GA4 이벤트 헬퍼 ──
@@ -199,7 +265,7 @@ function revealMenu(seed) {
     // GA4: menu_revealed 이벤트
     trackEvent('menu_revealed', { menu_name: menuName });
 
-    const coupangUrl = getCoupangLink(menuName);
+    const shopee = getShopeeLink(menuName);
 
     menuArea.innerHTML = `
         <div class="menu-content">
@@ -209,21 +275,21 @@ function revealMenu(seed) {
             <div class="menu-decoration">✧</div>
         </div>
 
-        <div class="coupang-section">
-            <p class="coupang-hint">오늘의 운명이 정해졌다면, 재료도 운명처럼 빠르게.</p>
-            <a class="coupang-btn"
-               href="${coupangUrl}"
+        <div class="shopee-section">
+            <p class="shopee-hint">The oracle has spoken. Now make it real. ✨</p>
+            <a class="shopee-btn"
+               href="${shopee.url}"
                target="_blank"
                rel="noopener noreferrer sponsored"
-               onclick="trackCoupangClick('${menuName}')">
-                <span class="coupang-icon">🛒</span>
-                <span class="coupang-text">
-                    <span class="coupang-main">${menuName} 밀키트 보러가기</span>
-                    <span class="coupang-sub">쿠팡에서 바로 주문 · 로켓배송</span>
+               onclick="trackShopeeClick('${menuName}')">
+                <span class="shopee-icon">🛍️</span>
+                <span class="shopee-text">
+                    <span class="shopee-main">Get Korean ingredients on ${shopee.label}</span>
+                    <span class="shopee-sub">K-food · K-snacks · Fast delivery</span>
                 </span>
-                <span class="coupang-arrow">→</span>
+                <span class="shopee-arrow">→</span>
             </a>
-            <p class="coupang-disclosure">* 이 링크는 제휴 마케팅 링크로, 구매 시 소정의 수수료가 발생할 수 있습니다.</p>
+            <p class="shopee-disclosure">* Affiliate link — we may earn a small commission at no extra cost to you.</p>
         </div>
 
         <div class="share-section">
@@ -240,12 +306,14 @@ function revealMenu(seed) {
     `;
 }
 
-// ── 쿠팡 클릭 추적 ──
-function trackCoupangClick(menuName) {
-    trackEvent('coupang_click', {
+// ── Shopee 클릭 추적 ──
+function trackShopeeClick(menuName) {
+    const config = getShopeeConfig();
+    trackEvent('shopee_click', {
         menu_name: menuName,
-        link_type: 'meal_kit',
-        affiliate: 'coupang_partners'
+        shopee_domain: config.domain,
+        shopee_region: config.label,
+        affiliate: 'shopee_affiliate'
     });
 }
 
