@@ -510,17 +510,17 @@ input:focus {
 
 /* ── Footer Privacy Link ── */
 .footer-privacy {
-    margin-top: 0.8rem;
+    margin-top: 1rem;
 }
 .footer-privacy a {
-    font-size: 0.6rem;
+    font-size: 0.7rem;
     letter-spacing: 2px;
     color: var(--accent-color);
-    opacity: 0.4;
+    opacity: 0.65;
     text-decoration: none;
     text-transform: uppercase;
 }
-.footer-privacy a:hover { opacity: 0.8; }
+.footer-privacy a:hover { opacity: 1; }
 
 /* ── Responsive: K-pop Cards ── */
 @media (max-width: 600px) {
