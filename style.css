@@ -514,14 +514,16 @@ input:focus {
     opacity: 1 !important;
 }
 .footer-privacy a {
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     letter-spacing: 2px;
-    color: var(--text-color);
-    opacity: 0.65;
+    color: rgba(240, 230, 255, 0.75);
+    opacity: 1 !important;
     text-decoration: none;
     text-transform: uppercase;
 }
-.footer-privacy a:hover { opacity: 1; }
+.footer-privacy a:hover {
+    color: rgba(240, 230, 255, 1);
+}
 
 /* ── Responsive: K-pop Cards ── */
 @media (max-width: 600px) {
