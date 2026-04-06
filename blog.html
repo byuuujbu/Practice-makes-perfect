@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Oracle Blog — Fortune Stories from Korea, Brazil & Indonesia</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8526543982783991" crossorigin="anonymous"></script>
+    <meta name="description" content="Mystical fortune stories comparing Korean shamanism, Brazilian Candomblé, and Indonesian spiritual traditions. Fairy-tale wisdom for the modern soul.">
+    <meta name="keywords" content="korean fortune, saju, candomblé, brazil fortune, indonesia dukun, k-fortune, spiritual blog, lucky symbols, fate, destiny">
+    <link rel="canonical" href="https://linefortune.com/blog.html">
+    <meta property="og:type" content="blog">
+    <meta property="og:url" content="https://linefortune.com/blog.html">
+    <meta property="og:title" content="The Oracle Blog — Fortune Stories from Korea, Brazil & Indonesia">
+    <meta property="og:description" content="Mystical fortune stories comparing Korean shamanism, Brazilian Candomblé, and Indonesian spiritual traditions.">
+    <meta property="og:image" content="https://linefortune.com/og-image.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .blog-page { max-width: 760px; margin: 0 auto; padding: 2.5rem 1.5rem 6rem; position: relative; z-index: 1; }
+
+        /* ── Top Nav ── */
+        .blog-topnav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+        }
+        .nav-home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--accent-color);
+            padding: 0.45rem 1.1rem;
+            border-radius: 30px;
+            font-size: 0.78rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .nav-home-btn:hover { background: var(--accent-color); color: #08000f; }
+
+        /* ── Blog Header ── */
+        .blog-hero { text-align: center; margin-bottom: 4rem; }
+        .blog-hero .tag {
+            font-size: 0.72rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent-pink);
+            margin-bottom: 1rem;
+        }
+        .blog-hero h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            line-height: 1.3;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.8rem;
+        }
+        .blog-hero p { font-size: 0.9rem; opacity: 0.6; max-width: 500px; margin: 0 auto; }
+
+        /* ── Post Card ── */
+        .post-divider { border: none; border-top: 1px solid var(--border-color); margin: 4rem 0; }
+
+        .blog-post { margin-bottom: 0; }
+
+        .post-number {
+            font-size: 0.68rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent-pink);
+            opacity: 0.6;
+            margin-bottom: 0.6rem;
+        }
+        .post-subtitle {
+            font-family: var(--font-serif);
+            font-size: clamp(1.4rem, 4vw, 2rem);
+            line-height: 1.3;
+            color: #FFD700;
+            margin-bottom: 0.5rem;
+        }
+        .post-date {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            color: #FFD700;
+            opacity: 0.75;
+            margin-bottom: 2rem;
+        }
+        .post-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        .post-tag {
+            font-size: 0.65rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            background: rgba(201,168,255,0.1);
+            border: 1px solid var(--border-color);
+            color: var(--accent-color);
+            padding: 0.25rem 0.7rem;
+            border-radius: 20px;
+        }
+        .post-body p {
+            font-size: 0.93rem;
+            line-height: 1.9;
+            color: rgba(240,230,255,0.85);
+            margin-bottom: 1.2rem;
+        }
+        .post-body .culture-label {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            margin: 2rem 0 0.5rem;
+            opacity: 0.7;
+        }
+        .lesson-box {
+            background: rgba(201,168,255,0.06);
+            border-left: 3px solid #FFD700;
+            border-radius: 0 10px 10px 0;
+            padding: 1.2rem 1.5rem;
+            margin: 2rem 0;
+        }
+        .lesson-box .lesson-label {
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #FFD700;
+            margin-bottom: 0.6rem;
+        }
+        .lesson-box p {
+            font-size: 0.88rem;
+            line-height: 1.7;
+            color: rgba(240,230,255,0.9);
+            margin: 0;
+            font-style: italic;
+        }
+
+        /* ── CTA ── */
+        .cta-box {
+            background: linear-gradient(135deg, rgba(201,168,255,0.1), rgba(255,158,196,0.06));
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        .cta-box p { font-size: 0.9rem; opacity: 0.8; margin-bottom: 1.2rem; }
+        .cta-btn {
+            display: inline-block;
+            background: var(--accent-gold);
+            color: #08000f;
+            font-weight: 700;
+            padding: 0.75rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
+            letter-spacing: 1px;
+        }
+        .cta-btn:hover { opacity: 0.85; }
+
+        /* ── Post Index ── */
+        .post-index {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 4rem;
+        }
+        .post-index h3 {
+            font-family: var(--font-serif);
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        .post-index ol { padding-left: 1.2rem; }
+        .post-index li { margin-bottom: 0.5rem; }
+        .post-index a {
+            font-size: 0.85rem;
+            color: rgba(240,230,255,0.7);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .post-index a:hover { color: #FFD700; }
+    </style>
+</head>
+<body>
+<div class="glow-orb glow-1"></div>
+<div class="glow-orb glow-2"></div>
+
+<div class="blog-page">
+
+    <!-- Top Navigation -->
+    <nav class="blog-topnav">
+        <a href="index.html" class="nav-home-btn">← Back to The Oracle</a>
+        <span style="font-size:0.72rem; letter-spacing:3px; color:var(--accent-pink); opacity:0.6; text-transform:uppercase;">✦ The Oracle Blog ✦</span>
+    </nav>
+
+    <!-- Hero -->
+    <div class="blog-hero">
+        <div class="tag">✨ Fortune · Myth · Wisdom · Culture ✨</div>
+        <h1>Tales from Three Worlds</h1>
+        <p>Fairy-tale stories that explore the fortune traditions of Korea, Brazil, and Indonesia — with lessons for the soul.</p>
+    </div>
+
+    <!-- Post Index -->
+    <div class="post-index">
+        <h3>✦ Today's Stories — 2026-04-06</h3>
+        <ol>
+            <li><a href="#post-1">Three Grandmothers at the Crossroads of Fate</a></li>
+            <li><a href="#post-2">The River That Remembers Your Name</a></li>
+            <li><a href="#post-3">The Color That Chooses You</a></li>
+            <li><a href="#post-4">The Lamp in the Fortune Teller's Window</a></li>
+            <li><a href="#post-5">The Numbers That Found You First</a></li>
+        </ol>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         POST 1
+    ═══════════════════════════════════════ -->
+    <article class="blog-post" id="post-1">
+        <div class="post-number">Story No. 01</div>
+        <h2 class="post-subtitle">Three Grandmothers at the Crossroads of Fate</h2>
+        <div class="post-date">2026-04-06</div>
+        <div class="post-tags">
+            <span class="post-tag">Korea</span>
+            <span class="post-tag">Brazil</span>
+            <span class="post-tag">Indonesia</span>
+            <span class="post-tag">Fate & Destiny</span>
+        </div>
+        <div class="post-body">
+            <p>Once upon a time, in a world woven from starlight and ancient breath, three grandmothers sat at the crossroads of every human life. They did not live in the same land — yet they shared the same loom.</p>
+
+            <p class="culture-label">✦ Korea — Samsin Halmoni</p>
+            <p>In the misty mountains of Korea, she was called Samsin Halmoni — the Grandmother of Three Bodies. Long before a child drew its first breath, she had already counted its heartbeats, traced the paths of its soul, and assigned it a fate wound like silk thread around the wrist. Mothers prayed to her on the seventh day after birth, offering rice cakes and steamed rice wine, whispering for the thread to be long, strong, and kind. Samsin Halmoni did not grant wishes — she set intention. The life was still yours to live. But the direction had been breathed into you before you arrived.</p>
+
+            <p class="culture-label">✦ Brazil — Nanã of the Sacred Lake</p>
+            <p>Across the vast ocean, in the red-clay hills of Brazil, another grandmother waited — dressed in white and deep purple, the colors of mourning transformed into mystery. She was Nanã, the oldest of the Orixás in the Candomblé tradition, keeper of mud and memory. She did not weave fate — she remembered it. Every soul that entered the world had once rested in the dark, sacred lake she guarded before birth. The Brazilians who honored her understood this: to forget where you came from is to lose the thread that leads you back. Nanã asks not for elaborate ceremony but for honesty — the willingness to know your own beginning.</p>
+
+            <p class="culture-label">✦ Indonesia — Dewi Sri, Mother of the Harvest</p>
+            <p>In the green islands of Indonesia, on the island of Java, lived Dewi Sri — goddess of rice and all living things. She did not sit at a crossroads so much as she walked through every paddy field at dusk, singing in a language only the grain understood. Farmers called her the Mother of Fate, for the harvest was life, and life was the sum of every choice made beneath her watchful eyes. She asked not for grand rituals, but for gratitude. She asked for presence, not perfection. To neglect the earth was to neglect her — and the harvest would answer accordingly.</p>
+
+            <div class="lesson-box">
+                <div class="lesson-label">✦ The Lesson</div>
+                <p>Your fate was touched by hands older than memory. Honor the forces that shaped you — the traditions, the elders, the invisible threads connecting you to something vast. But none of these grandmothers believed fate was a locked room. They saw it as a river, with banks you could lean against or choose to cross. The thread is yours now. Use it with intention, and never — not for anything — cut it short by surrendering to despair.</p>
+            </div>
+        </div>
+    </article>
+
+    <hr class="post-divider">
+
+    <!-- ═══════════════════════════════════════
+         POST 2
+    ═══════════════════════════════════════ -->
+    <article class="blog-post" id="post-2">
+        <div class="post-number">Story No. 02</div>
+        <h2 class="post-subtitle">The River That Remembers Your Name</h2>
+        <div class="post-date">2026-04-06</div>
+        <div class="post-tags">
+            <span class="post-tag">Korea</span>
+            <span class="post-tag">Brazil</span>
+            <span class="post-tag">Indonesia</span>
+            <span class="post-tag">Water & Spirit</span>
+        </div>
+        <div class="post-body">
+            <p>Every river in the world holds a memory. The old ones knew this long before science had a name for it — before we spoke of water molecules or hydrological cycles. They simply knew: water listens.</p>
+
+            <p class="culture-label">✦ Korea — Susin, the River Spirit</p>
+            <p>In Korea, the water spirit was called Susin — unseen, unfelt unless you were still enough to listen. Fishermen left offerings on the bank before the first cast of the season: a small bowl of rice, a cup of makgeolli, a whispered prayer that the nets would come up full. They believed the river heard everything — every secret murmured at its edge, every wish thrown in with a coin, every sorrow washed downstream. The river did not judge. But it remembered every name spoken honestly beside its current. To approach Susin with a clean and open heart was to invite abundance; to approach with arrogance was to come home empty-handed.</p>
+
+            <p class="culture-label">✦ Brazil — Oxum, Goddess of Rivers</p>
+            <p>In Brazil, she was Oxum — goddess of freshwater rivers, of love, of gold, and of the mirror. Warm and luminous, wrapped in yellow silk and adorned with gold that caught the late afternoon light, she received offerings at river bends and waterfalls: honey, yellow candles, golden rings. The faithful believed Oxum granted not just luck but clarity — the ability to see yourself truly, the way still water reflects without distortion. To stand at a river and ask Oxum to show you who you really were was considered an act of tremendous spiritual courage, because the mirror never flatters. It only shows what is.</p>
+
+            <p class="culture-label">✦ Indonesia — Nyai Roro Kidul, Queen of the South Sea</p>
+            <p>In Indonesia, the waters answered to Nyai Roro Kidul — the legendary Queen of the South Sea, beautiful in the way deep ocean currents are beautiful: magnificent, dangerous, and impossible to fully know. The Javanese knew that wearing green near the southern shore might attract her gaze — and her attention was not always gentle. But the truly wise also understood that she was not malevolent. She was powerful, and there is a vast difference between those two things. To respect her was not fear — it was wisdom earned through generations of living beside something greater than oneself.</p>
+
+            <div class="lesson-box">
+                <div class="lesson-label">✦ The Lesson</div>
+                <p>Water carries what you bring to it. Approach with sincerity, and it returns clarity. Approach with greed or recklessness, and it will take more than you intended to give. If there is a wish that has lived too long in the quiet of your chest — go to the nearest water. Speak it gently. Mean every word. Then release it. But take heed: do not ask for what belongs to someone else, and do not throw desperation downstream expecting miracles to swim back. The river remembers your name. It will also remember your intentions.</p>
+            </div>
+        </div>
+    </article>
+
+    <hr class="post-divider">
+
+    <!-- ═══════════════════════════════════════
+         POST 3
+    ═══════════════════════════════════════ -->
+    <article class="blog-post" id="post-3">
+        <div class="post-number">Story No. 03</div>
+        <h2 class="post-subtitle">The Color That Chooses You</h2>
+        <div class="post-date">2026-04-06</div>
+        <div class="post-tags">
+            <span class="post-tag">Korea</span>
+            <span class="post-tag">Brazil</span>
+            <span class="post-tag">Indonesia</span>
+            <span class="post-tag">Color & Symbol</span>
+        </div>
+        <div class="post-body">
+            <p>They say that before you chose a color, the color chose you. This sounds like poetry until the moment you feel it land — and then it becomes a truth too quiet to argue with and too persistent to ignore.</p>
+
+            <p class="culture-label">✦ Korea — Red, the Shield of the Living</p>
+            <p>In Korea, the color red was never merely decoration — it was armor. For thousands of years, red was the shield against malevolent spirits, the hue of the rising sun over Joseon's mountain ridges, the shade smeared on doorframes during illness to keep the shadow of death from crossing the threshold. Red pepper paste, red lanterns, red envelopes — all carried the same silent command to darkness: you are not welcome here. Korean grandmothers tied red thread around the wrists of newborns not as ornament but as protection — a small wound of color that declared to the unseen world: this child belongs to the living, and the living are not afraid of you.</p>
+
+            <p class="culture-label">✦ Brazil — Yellow for Oxum, White for Iemanjá</p>
+            <p>In Brazil, color was a living conversation between humans and the divine. Yellow was the voice of Oxum, goddess of rivers and love — to wear it on a Friday was to invite her warmth into your coming week. White belonged to Oxalá and Iemanjá, worn on New Year's Eve when millions gathered at the shore in white garments, carrying flowers to the edge of the sea, leaving them in the dark tide as offerings for one more year of peace. In the Candomblé tradition, your colors were not a personal choice — they were revealed through your Orixá, your divine guardian. Wearing the wrong color, in the wrong context, could close doors you did not know were standing open.</p>
+
+            <p class="culture-label">✦ Indonesia — The Language of Batik</p>
+            <p>In Indonesia, the deepest wisdom about color lived in cloth. Batik — the ancient art of wax-resist dyeing practiced for centuries across Java — encoded entire cosmologies in its patterns and hues. White was sacred, the color of ceremony and divine presence. Red was courage and the heat of life. Gold was benediction from above. Yet the people of Java knew something rarely spoken plainly: color's meaning shifts with context. A shade that brings fortune at a wedding might carry grief at the wrong moment. True knowledge was never in the color alone, but in understanding when and how to call upon its particular power.</p>
+
+            <div class="lesson-box">
+                <div class="lesson-label">✦ The Lesson</div>
+                <p>Notice the colors that find you without effort — the shade you reach for without thinking, the hue that appears in your dreams. Your instinct about color may be older than your memory of it. Trust it gently. Let it inform your mornings and your choices. Wear red when you need protection, yellow when you need warmth, white when you need to begin again. But when you have dressed yourself in all the right colors — take them off, and do the thing that actually needs doing. No color in this world can substitute for the work of living honestly.</p>
+            </div>
+        </div>
+    </article>
+
+    <hr class="post-divider">
+
+    <!-- ═══════════════════════════════════════
+         POST 4
+    ═══════════════════════════════════════ -->
+    <article class="blog-post" id="post-4">
+        <div class="post-number">Story No. 04</div>
+        <h2 class="post-subtitle">The Lamp in the Fortune Teller's Window</h2>
+        <div class="post-date">2026-04-06</div>
+        <div class="post-tags">
+            <span class="post-tag">Korea</span>
+            <span class="post-tag">Brazil</span>
+            <span class="post-tag">Indonesia</span>
+            <span class="post-tag">Divination & Wisdom</span>
+        </div>
+        <div class="post-body">
+            <p>There is a particular quality of light that exists only in certain places — warm, amber, seeming to come from somewhere older than electricity. You have encountered it without quite knowing what it was. It is the light in the fortune teller's window, and it is the same light, in every country, in every century that has kept the tradition alive.</p>
+
+            <p class="culture-label">✦ Korea — The Mudang and the Jeomjip</p>
+            <p>In Korea, the 점집 — the jeomjip, the house of divination — announced itself with a red lantern swaying from a wooden beam like a slow, amber heartbeat in the evening air. Inside, the mudang — almost always a woman — sat at a low table surrounded by offerings: dried persimmon, white rice, incense curling toward the ceiling. She had not chosen this vocation. The spirits had chosen her, often through years of illness and suffering called sinbyeong — a divine sickness that would not lift until she yielded to her calling. Koreans understood that true spiritual authority is not claimed. It is given. And what is given always costs something real.</p>
+
+            <p class="culture-label">✦ Brazil — The Terreiro and the Pai de Santo</p>
+            <p>In Brazil, the equivalent sacred space was the terreiro — a community center where Candomblé ceremonies unfolded across long hours of drumming, song, and spiritual invocation. The leader, pai de santo or mãe de santo (father or mother of the saint), had typically spent years in disciplined training, learning the names, songs, and rituals of hundreds of spirits before being permitted to guide others. People came to the terreiro not for quick answers to quick questions, but for realignment — to be reminded of who they were in relation to something larger than themselves. The terreiro was not a transactional service. It was, in the truest sense, a homecoming.</p>
+
+            <p class="culture-label">✦ Indonesia — The Dukun's Quiet Path</p>
+            <p>In Indonesia, the dukun walked a more solitary road — village healer, spirit intermediary, and oracle woven into one. Feared in some places, revered in others, always more complicated than either reputation suggested. The most respected dukun were known not for dramatic claims or theatrical ritual, but for their restraint. They knew the edges of what they could perceive, and they told you so plainly. They would decline a consultation as readily as accept one, because they had learned what the terreiro and the jeomjip both taught in different languages: some answers only come through the experience of living, not through any ceremony the spirit world can provide.</p>
+
+            <div class="lesson-box">
+                <div class="lesson-label">✦ The Lesson</div>
+                <p>Seek wisdom from those who carry it quietly. Be suspicious of anyone who trades in certainties — the spirit world deals in probabilities, not guarantees, and anyone who tells you otherwise is selling something other than truth. And be equally honest with yourself: we often seek a fortune teller not to be told what is true, but to be given permission for what we have already decided. Go, if you feel called. Sit in the amber light. Ask your question with complete honesty. Then walk back out that door prepared to do the work yourself. The lamp is an invitation. The path remains yours to walk.</p>
+            </div>
+        </div>
+    </article>
+
+    <hr class="post-divider">
+
+    <!-- ═══════════════════════════════════════
+         POST 5
+    ═══════════════════════════════════════ -->
+    <article class="blog-post" id="post-5">
+        <div class="post-number">Story No. 05</div>
+        <h2 class="post-subtitle">The Numbers That Found You First</h2>
+        <div class="post-date">2026-04-06</div>
+        <div class="post-tags">
+            <span class="post-tag">Korea</span>
+            <span class="post-tag">Brazil</span>
+            <span class="post-tag">Indonesia</span>
+            <span class="post-tag">Numerology & Time</span>
+        </div>
+        <div class="post-body">
+            <p>Before you knew your own name, numbers already knew you. This is not a metaphor. In three ancient traditions separated by oceans and centuries, the same understanding arrived independently: the moment of your birth was a message, encoded in time, and the numbers were the cipher.</p>
+
+            <p class="culture-label">✦ Korea — Saju, the Four Pillars of Destiny</p>
+            <p>In Korea, the tradition of saju — the Four Pillars of Destiny — decoded the moment of birth like a cosmic fingerprint. The year, the month, the day, and the hour each formed a column governed by a heavenly stem and an earthly branch, together revealing your elemental nature. Were you fire or water, wood or metal, earth or sky? The saju master did not read your fortune so much as interpret a language that had been speaking since your first breath. And woven through everything were numbers — the energy count of your name's written strokes, the cycle of your lunar birth year, the rhythm of elemental transformations across a sixty-year cycle. Numbers, here, were not decoration. They were the DNA of the invisible self.</p>
+
+            <p class="culture-label">✦ Brazil — Orixás and the Numbers That Belong to Them</p>
+            <p>In Brazil, numerology merged with the spiritual architecture of Umbanda and Candomblé into something uniquely alive and relational. Each Orixá — each divine spirit — carried a number as part of their identity. Xangô, king of justice and thunder, ruled over four and twelve. Ogum, warrior who opens the paths forward, claimed seven as his own. Exu, guardian of crossroads and communication, stood at twenty-one. When a practitioner revealed your Orixá, they were simultaneously revealing your numbers, your days, the rhythms in which the universe was most inclined to answer your calls. Numerology in this tradition was never abstract — it was a living map of relationship between the human and the divine.</p>
+
+            <p class="culture-label">✦ Indonesia — The Primbon and the Wuku Cycle</p>
+            <p>In Indonesia, the ancient Javanese almanac called the Primbon assigned specific energies to every day through a complex interweaving of the five-day Pancawara week and the seven-day week, layered over each other in a cycle called the wuku. Every Javanese child was born into a specific wuku, determining which days would flow with the current of fortune and which would require careful navigation against it. Weddings, businesses, journeys, and harvests were all timed against the wuku calendar — not out of superstition but out of the same impulse a sailor follows when reading wind and tide. You do not fight the ocean. You learn to read it.</p>
+
+            <div class="lesson-box">
+                <div class="lesson-label">✦ The Lesson</div>
+                <p>The numbers that appear in your life again and again — in addresses, in totals, in the time you happen to glance at the clock — are worth your attention. Not because they command your choices, but because the universe has always communicated through repetition, and you are perceptive enough to notice. You were found by your numbers long before you thought to count them. Use them as a compass, not a cage. Let them point, and let yourself decide the direction. Then move. The time the numbers are pointing toward is always, without exception, now.</p>
+            </div>
+        </div>
+    </article>
+
+    <hr class="post-divider">
+
+    <!-- CTA -->
+    <div class="cta-box">
+        <p>Ready to discover what the universe has written for you?<br>Get your personalized K-fortune reading at <strong>THE ORACLE</strong> — free, mystical, and made for you.</p>
+        <a href="index.html" class="cta-btn">🔮 Read My Fortune Now</a>
+    </div>
+
+    <!-- Footer nav -->
+    <div style="text-align:center; margin-top:3rem;">
+        <a href="index.html" class="nav-home-btn" style="font-size:0.7rem;">← Return to The Oracle</a>
+    </div>
+
+</div>
+
+<script>
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+</script>
+</body>
+</html>
