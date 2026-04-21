@@ -1,4 +1,11 @@
 User-agent: *
 Allow: /
+Disallow: /.git/
+Disallow: /.idx/
+Disallow: /.vscode/
+
+# Naver
+User-agent: Yeti
+Allow: /
 
 Sitemap: https://linefortune.com/sitemap.xml

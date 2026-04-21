@@ -2,14 +2,38 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://linefortune.com/</loc>
-    <lastmod>2026-03-26</lastmod>
+    <lastmod>2026-04-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://linefortune.com/privacy.html</loc>
-    <lastmod>2026-03-26</lastmod>
+    <loc>https://linefortune.com/blog.html</loc>
+    <lastmod>2026-04-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://linefortune.com/blog-lucky-symbols.html</loc>
+    <lastmod>2026-04-21</lastmod>
     <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://linefortune.com/about.html</loc>
+    <lastmod>2026-04-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://linefortune.com/contact.html</loc>
+    <lastmod>2026-04-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://linefortune.com/privacy.html</loc>
+    <lastmod>2026-04-21</lastmod>
+    <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 </urlset>
