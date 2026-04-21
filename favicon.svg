@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <radialGradient id="bg" cx="40%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#2d0050"/>
+      <stop offset="100%" stop-color="#08000f"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#c9a8ff" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#c9a8ff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="starGlow">
+      <feGaussianBlur stdDeviation="0.8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="16" cy="16" r="16" fill="url(#bg)"/>
+
+  <!-- Gold ring border -->
+  <circle cx="16" cy="16" r="14.5" fill="none" stroke="#d4af37" stroke-width="0.9" opacity="0.85"/>
+
+  <!-- Inner glow -->
+  <circle cx="16" cy="16" r="12" fill="url(#glow)"/>
+
+  <!-- 4-pointed sparkle star (main) -->
+  <path d="M16,5.5 L17.8,14.2 L26.5,16 L17.8,17.8 L16,26.5 L14.2,17.8 L5.5,16 L14.2,14.2 Z"
+        fill="#d4af37" filter="url(#starGlow)"/>
+
+  <!-- Center dot -->
+  <circle cx="16" cy="16" r="1.4" fill="#fff8dc"/>
+
+  <!-- Small accent stars -->
+  <circle cx="8.5" cy="8.5" r="1" fill="#c9a8ff" opacity="0.75"/>
+  <circle cx="23.5" cy="9" r="0.7" fill="#c9a8ff" opacity="0.6"/>
+  <circle cx="22.5" cy="23" r="0.85" fill="#ff9ec4" opacity="0.65"/>
+</svg>
