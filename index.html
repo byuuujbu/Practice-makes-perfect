@@ -45,7 +45,24 @@
     <meta name="twitter:description" content="Ancient Korean destiny reading meets tonight's perfect meal. What does the universe say about YOU today? 🌙">
     <meta name="twitter:image" content="https://linefortune.com/og-image.jpg">
 
-    <!-- JSON-LD Structured Data -->
+    <!-- JSON-LD: WebSite + SearchAction (Sitelinks Searchbox signal) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "THE ORACLE — K-Fortune & Feast",
+      "url": "https://linefortune.com/",
+      "description": "Free Korean Saju fortune reading, compatibility check, and K-culture destiny tool for global fans.",
+      "inLanguage": ["ko", "en", "id", "es"],
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://linefortune.com/blog.html",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- JSON-LD: WebApplication -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -55,9 +72,29 @@
       "description": "Discover your destiny through ancient Korean fortune telling. Get your personalized fate reading and tonight's divine meal recommendation — a mystical experience for K-culture fans.",
       "applicationCategory": "EntertainmentApplication",
       "operatingSystem": "Any",
-      "inLanguage": ["en", "ko", "id", "pt"],
+      "inLanguage": ["ko", "en", "id", "es"],
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-      "keywords": "kpop fortune, korean fortune telling, k-fortune, destiny reading, kpop fans, bts fortune"
+      "featureList": [
+        "Korean Saju fortune reading based on birth date",
+        "Romantic and friendship compatibility check",
+        "Group fortune reading for K-pop groups",
+        "Multilingual support: Korean, English, Indonesian, Spanish"
+      ],
+      "dateModified": "2026-04-21"
+    }
+    </script>
+
+    <!-- JSON-LD: Speakable (marks content suitable for AI voice / AI Overview reading) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "THE ORACLE — K-Fortune & Feast",
+      "url": "https://linefortune.com/",
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": ["#geo-summary", ".main-title", ".subtitle"]
+      }
     }
     </script>
 
@@ -103,15 +140,26 @@
     }
     </script>
 
-    <!-- JSON-LD: Organization -->
+    <!-- JSON-LD: Organization (E-E-A-T entity signal) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "THE ORACLE",
+      "alternateName": "Line Fortune",
       "url": "https://linefortune.com/",
       "logo": "https://linefortune.com/favicon.svg",
-      "description": "Ancient Korean fortune telling meets modern K-culture. Free Saju readings, compatibility checks, and divine meal recommendations.",
+      "description": "THE ORACLE is a free K-fortune platform combining traditional Korean Saju (사주) divination with modern K-culture for a global audience.",
+      "foundingDate": "2026",
+      "knowsAbout": [
+        "Korean fortune telling",
+        "Saju (사주) Four Pillars of Destiny",
+        "Korean shamanism (무속 신앙)",
+        "Brazilian Candomblé",
+        "Indonesian Javanese mysticism",
+        "K-culture and K-pop"
+      ],
+      "areaServed": "Worldwide",
       "sameAs": []
     }
     </script>
@@ -179,6 +227,24 @@
                 ✦ Fortune Stories &amp; Blog ✦
             </a>
         </div>
+
+        <!-- GEO: Static content block for AI crawlers and search engines (hidden visually) -->
+        <section id="geo-summary" aria-label="About THE ORACLE" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;">
+            <h2>What is THE ORACLE?</h2>
+            <p>THE ORACLE is a free Korean fortune-telling (Saju) web application available at linefortune.com. Saju (사주), or the Four Pillars of Destiny, is a traditional Korean divination system based on the year, month, day, and hour of a person's birth. THE ORACLE uses this ancient system to generate personalized destiny readings for K-culture fans worldwide.</p>
+            <h3>Features</h3>
+            <ul>
+                <li>Fortune Reading (운세): Enter your birth date, body weight, and MBTI to receive a personalized Korean Saju destiny reading.</li>
+                <li>Compatibility Check (궁합): Compare two people's birth information to determine romantic or friendship compatibility.</li>
+                <li>Group Reading (그룹): Get collective fortune readings for K-pop groups or groups of friends.</li>
+            </ul>
+            <h3>Languages Supported</h3>
+            <p>Korean (한국어), English, Indonesian (Bahasa Indonesia), Spanish (Español).</p>
+            <h3>Is it free?</h3>
+            <p>Yes. THE ORACLE is completely free to use with no account or registration required.</p>
+            <h3>Cultural Background</h3>
+            <p>THE ORACLE draws from Korean shamanic tradition (무속 신앙), the Saju system rooted in Chinese cosmology, and presents comparative insights from Brazilian Candomblé and Indonesian Javanese mysticism through its blog section.</p>
+        </section>
 
         <main class="content">
             <div class="badge">✧ MYSTICAL READING ✧</div>

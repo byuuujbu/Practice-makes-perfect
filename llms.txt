@@ -1,0 +1,52 @@
+# THE ORACLE — K-Fortune & Feast
+
+> THE ORACLE is a free, multilingual Korean fortune-telling web application based on the ancient Saju (사주, Four Pillars of Destiny) system. It provides personalized destiny readings, romantic compatibility checks, and group fortune readings for a global K-culture audience.
+
+## Site Identity
+- URL: https://linefortune.com/
+- Brand: THE ORACLE
+- Domain: linefortune.com
+- Languages: Korean (한국어), English, Indonesian (Bahasa Indonesia), Spanish (Español)
+- Primary Topic: Korean fortune telling (Saju), K-culture, shamanic wisdom, divination
+- Audience: K-pop fans, K-culture enthusiasts, people curious about Asian spiritual traditions
+- Cost: Free, no account required
+
+## Main Pages
+
+- [Home — Fortune Reading](https://linefortune.com/): Free Saju destiny reading, compatibility check, group fortune reading tool
+- [Blog — Tales from Three Worlds](https://linefortune.com/blog.html): Original fairy-tale stories comparing Korean, Brazilian, and Indonesian fortune traditions
+- [About](https://linefortune.com/about.html): The story and mission of THE ORACLE team
+- [Contact](https://linefortune.com/contact.html): Contact the editorial team
+
+## Core Features
+
+1. **Fortune Reading (운세)** — Enter birth date, weight, and MBTI type to receive a personalized Korean destiny reading based on Saju
+2. **Compatibility Check (궁합)** — Compare two people's birth information for romantic or friendship compatibility
+3. **Group Reading (그룹)** — Get collective fortune readings for K-pop groups or friend groups
+
+## Blog Content Topics
+
+- Korean shamanism (무속 신앙): Mudang rituals, Samsin Halmoni, Susin, haemong (dream interpretation)
+- Brazilian spiritual traditions: Candomblé Orixás (Nanã, Oxum, Xangô, Iemanjá, Oxalá, Egungun), Umbanda, terreiro
+- Indonesian mysticism: Javanese Kejawen (Primbon, Wuku cycle, peksi, tafsir mimpi), Balinese Hindu ceremonies (Ngaben, Nyepi, Purnama), Dewi Sri
+- Comparative themes: fate, dreams, fire purification, ancestor veneration, moon cycles, bird omens, color symbolism, numerology
+
+## Published Blog Stories (as of 2026-04-21)
+
+Stories 01–05 (2026-04-06):
+- Three Grandmothers at the Crossroads of Fate
+- The River That Remembers Your Name
+- The Color That Chooses You
+- The Lamp in the Fortune Teller's Window
+- The Numbers That Found You First
+
+Stories 06–10 (2026-04-21):
+- The Dream That Arrived Before Morning
+- The Fire That Knows Your Name
+- The Ancestor Who Left a Chair Empty
+- The Moon's Debt to the Tide
+- The Bird at the Window at Dawn
+
+## Editorial Standards
+
+All content is original, human-written cultural storytelling. Stories are research-informed narratives drawing from documented traditions in Korean shamanism, Brazilian Candomblé/Umbanda, and Indonesian Kejawen/Balinese Hinduism. Content is intended as entertainment and cultural education — not professional spiritual, medical, or psychological advice.
