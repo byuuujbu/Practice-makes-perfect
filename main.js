@@ -498,6 +498,13 @@ function checkCompatibility() {
             </div>
             <div class="compat-tier-label">${tier.label}</div>
             <div class="compat-tier-text">${tier.text}</div>
+            <div class="mini-share">
+                <div class="mini-share-label">${ui.shareCompat}</div>
+                <button class="share-btn kakao mini" onclick="shareCompatOnKakao('${idolName.replace(/'/g, "\\'")}', ${score})">${ui.shareKakao}</button>
+                <button class="share-btn whatsapp mini" onclick="shareCompatOnWhatsApp('${idolName.replace(/'/g, "\\'")}', ${score})">${ui.shareWhatsApp}</button>
+                <button class="share-btn twitter mini" onclick="shareCompatOnTwitter('${idolName.replace(/'/g, "\\'")}', '${groupName.replace(/'/g, "\\'")}', ${score})">${ui.shareTwitter}</button>
+                <button class="share-btn native mini" onclick="shareCompatNative('${idolName.replace(/'/g, "\\'")}', '${groupName.replace(/'/g, "\\'")}', ${score})">${ui.shareMore}</button>
+            </div>
         </div>
     `;
 
@@ -578,6 +585,13 @@ function showGroupFortune(groupName, emoji) {
             <div class="group-fortune-color">
                 <span class="color-dot" style="background:${color.hex}"></span>
                 ${color.emoji} ${color.name}
+            </div>
+            <div class="mini-share">
+                <div class="mini-share-label">${ui.shareGroup}</div>
+                <button class="share-btn kakao mini" onclick="shareGroupOnKakao('${groupName.replace(/'/g, "\\'")}', '${emoji}')">${ui.shareKakao}</button>
+                <button class="share-btn whatsapp mini" onclick="shareGroupOnWhatsApp('${groupName.replace(/'/g, "\\'")}', '${emoji}')">${ui.shareWhatsApp}</button>
+                <button class="share-btn twitter mini" onclick="shareGroupOnTwitter('${groupName.replace(/'/g, "\\'")}', '${emoji}')">${ui.shareTwitter}</button>
+                <button class="share-btn native mini" onclick="shareGroupNative('${groupName.replace(/'/g, "\\'")}', '${emoji}')">${ui.shareMore}</button>
             </div>
         </div>
     `;
@@ -751,16 +765,17 @@ function renderMenu(seed) {
 
         <div class="share-section">
             <span class="share-label">${ui.shareLabel}</span>
+            <div class="share-sns-row">
+                <button class="share-btn kakao" onclick="shareOnKakao('${menuName.replace(/'/g, "\\'")}')">${ui.shareKakao}</button>
+                <button class="share-btn line"  onclick="shareOnLine('${menuName.replace(/'/g, "\\'")}')">${ui.shareLine}</button>
+                <button class="share-btn whatsapp" onclick="shareOnWhatsApp('${menuName.replace(/'/g, "\\'")}')">${ui.shareWhatsApp}</button>
+                <button class="share-btn twitter"  onclick="shareOnTwitter('${menuName.replace(/'/g, "\\'")}')">${ui.shareTwitter}</button>
+                <button class="share-btn facebook" onclick="shareOnFacebook()">${ui.shareFacebook}</button>
+            </div>
             <div class="share-buttons">
-                <button class="share-btn twitter" onclick="shareOnTwitter('${menuName}')">
-                    ${ui.shareTwitter}
-                </button>
-                <button class="share-btn copy" id="copy-btn" onclick="copyLink()">
-                    ${ui.shareCopy}
-                </button>
-                <button class="share-btn save-card" onclick="downloadCard()">
-                    ${ui.saveCard}
-                </button>
+                <button class="share-btn native"    onclick="shareNative('${menuName.replace(/'/g, "\\'")}')">${ui.shareMore}</button>
+                <button class="share-btn copy" id="copy-btn" onclick="copyLink()">${ui.shareCopy}</button>
+                <button class="share-btn save-card" onclick="downloadCard()">${ui.saveCard}</button>
             </div>
         </div>
     `;
@@ -777,27 +792,216 @@ function trackShopeeClick(menuName) {
     });
 }
 
+// ── 공유 텍스트 빌더 ──
+function buildShareContent(menuName) {
+    const fortuneEl  = document.querySelector('.fortune-result');
+    const fortuneText = fortuneEl ? fortuneEl.textContent.replace(/^"|"$/g, '').trim() : '';
+    const colorEl    = document.querySelector('.kcard-value');
+    const colorText  = colorEl ? colorEl.textContent.trim() : '';
+    const numberEl   = document.querySelector('.kcard-big');
+    const luckyNum   = numberEl ? numberEl.textContent.trim() : '';
+    const idolEl     = document.querySelector('.kcard-idol-name');
+    const idolText   = idolEl ? idolEl.textContent.trim() : '';
+
+    return { fortuneText, colorText, luckyNum, idolText };
+}
+
 // ── Twitter / X 공유 ──
 function shareOnTwitter(menuName) {
-    const fortuneEl = document.querySelector('.fortune-result');
-    const fortuneText = fortuneEl ? fortuneEl.textContent.replace(/^"|"$/g, '') : '';
+    const { fortuneText, colorText, luckyNum, idolText } = buildShareContent(menuName);
 
     const text = [
         `✨ The Oracle read my K-fate today ✨`,
         ``,
-        `${fortuneText}`,
+        fortuneText ? `"${fortuneText}"` : '',
         ``,
-        `🍜 Tonight's divine menu: ${menuName}`,
+        `🎨 Lucky Color: ${colorText}  🔢 Lucky #${luckyNum}`,
+        idolText ? `⭐ Idol Energy: ${idolText}` : '',
+        `🍜 Tonight's menu: ${menuName}`,
         ``,
-        `✦ Discover your destiny → ${window.location.href}`,
-        `#TheOracle #KFortune #KPop #운세`
-    ].join('\n');
+        `✦ What does the universe say about YOU? → linefortune.com`,
+        `#TheOracle #KFortune #KPop #운세`,
+    ].filter(l => l !== '').join('\n');
 
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
-    window.open(twitterUrl, '_blank', 'noopener,noreferrer');
-
-    // GA4: share 이벤트
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
     trackEvent('share', { method: 'twitter', content_type: 'fortune_result' });
+}
+
+// ── KakaoTalk 공유 ──
+function shareOnKakao(menuName) {
+    const { fortuneText, luckyNum, idolText } = buildShareContent(menuName);
+    const ui   = t().ui;
+    const url  = 'https://linefortune.com/';
+    const shareText = [
+        `🔮 THE ORACLE이 나의 K운세를 읽었어요!`,
+        ``,
+        fortuneText ? `"${fortuneText}"` : '',
+        ``,
+        `🍜 오늘의 천상 메뉴: ${menuName}`,
+        luckyNum   ? `🔢 행운의 숫자: ${luckyNum}` : '',
+        idolText   ? `⭐ 아이돌 에너지: ${idolText}` : '',
+        ``,
+        `✦ 나도 운세 보기 → ${url}`,
+    ].filter(l => l !== '').join('\n');
+
+    const kakaoDeepLink = `kakaotalk://send?text=${encodeURIComponent(shareText)}`;
+
+    // Mobile: try deep link. Desktop: clipboard fallback
+    const ua = navigator.userAgent || '';
+    if (/Android|iPhone|iPad/i.test(ua)) {
+        window.location.href = kakaoDeepLink;
+    } else {
+        navigator.clipboard.writeText(shareText).catch(() => {
+            const ta = document.createElement('textarea');
+            ta.value = shareText;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+        });
+        alert(ui.kakaoCopied);
+    }
+    trackEvent('share', { method: 'kakao', content_type: 'fortune_result' });
+}
+
+// ── LINE 공유 ──
+function shareOnLine(menuName) {
+    const { fortuneText } = buildShareContent(menuName);
+    const text = [
+        `🔮 THE ORACLE — K운세 결과`,
+        fortuneText ? `"${fortuneText}"` : '',
+        `🍜 오늘의 메뉴: ${menuName}`,
+        `✦ linefortune.com`,
+    ].filter(l => l !== '').join('\n');
+
+    window.open(`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent('https://linefortune.com/')}&text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+    trackEvent('share', { method: 'line', content_type: 'fortune_result' });
+}
+
+// ── WhatsApp 공유 ──
+function shareOnWhatsApp(menuName) {
+    const { fortuneText, colorText, luckyNum } = buildShareContent(menuName);
+    const text = [
+        `🔮 *THE ORACLE* read my K-fate!`,
+        ``,
+        fortuneText ? `_"${fortuneText}"_` : '',
+        ``,
+        `🍜 Tonight's divine menu: *${menuName}*`,
+        colorText  ? `🎨 Lucky Color: ${colorText}` : '',
+        luckyNum   ? `🔢 Lucky Number: ${luckyNum}` : '',
+        ``,
+        `✦ Check yours → https://linefortune.com/`,
+    ].filter(l => l !== '').join('\n');
+
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+    trackEvent('share', { method: 'whatsapp', content_type: 'fortune_result' });
+}
+
+// ── Facebook 공유 ──
+function shareOnFacebook() {
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://linefortune.com/')}`, '_blank', 'noopener,noreferrer');
+    trackEvent('share', { method: 'facebook', content_type: 'fortune_result' });
+}
+
+// ── Web Share API (native) ──
+function shareNative(menuName) {
+    const { fortuneText } = buildShareContent(menuName);
+    if (navigator.share) {
+        navigator.share({
+            title: 'THE ORACLE — K-Fortune Reading',
+            text: fortuneText ? `"${fortuneText}" 🍜 Tonight's menu: ${menuName}` : `🔮 THE ORACLE read my K-fate! 🍜 ${menuName}`,
+            url: 'https://linefortune.com/',
+        }).catch(() => {});
+        trackEvent('share', { method: 'native', content_type: 'fortune_result' });
+    } else {
+        shareOnFacebook();
+    }
+}
+
+// ── 궁합 공유 함수들 ──
+function shareCompatOnKakao(idolName, score) {
+    const ui   = t().ui;
+    const text = `💕 THE ORACLE 궁합 결과!\n\n나와 ${idolName}의 궁합은 ${score}%! 🌙\n\n✦ 나도 아이돌 궁합 보기 → https://linefortune.com/`;
+    const ua = navigator.userAgent || '';
+    if (/Android|iPhone|iPad/i.test(ua)) {
+        window.location.href = `kakaotalk://send?text=${encodeURIComponent(text)}`;
+    } else {
+        navigator.clipboard.writeText(text).catch(() => {});
+        alert(ui.kakaoCopied);
+    }
+    trackEvent('share', { method: 'kakao', content_type: 'compat_result' });
+}
+
+function shareCompatOnWhatsApp(idolName, score) {
+    const text = `💕 *THE ORACLE* Compatibility!\n\nMy match with *${idolName}*: *${score}%* 🌙\n\n✦ Check yours → https://linefortune.com/`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+    trackEvent('share', { method: 'whatsapp', content_type: 'compat_result' });
+}
+
+function shareCompatOnTwitter(idolName, groupName, score) {
+    const text = `💕 THE ORACLE says my compatibility with ${groupName} ${idolName} is ${score}%! 🔮\n\n✦ Check your K-fate → linefortune.com\n#TheOracle #KFortune #KPop #궁합`;
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+    trackEvent('share', { method: 'twitter', content_type: 'compat_result' });
+}
+
+function shareCompatNative(idolName, groupName, score) {
+    if (navigator.share) {
+        navigator.share({
+            title: 'THE ORACLE — Idol Compatibility',
+            text: `My compatibility with ${groupName} ${idolName} is ${score}%! 💕`,
+            url: 'https://linefortune.com/',
+        }).catch(() => {});
+        trackEvent('share', { method: 'native', content_type: 'compat_result' });
+    } else {
+        shareCompatOnTwitter(idolName, groupName, score);
+    }
+}
+
+// ── 그룹 운세 공유 함수들 ──
+function shareGroupOnKakao(groupName, emoji) {
+    const ui    = t().ui;
+    const el    = document.querySelector('.group-fortune-text');
+    const text  = el ? el.textContent.replace(/^"|"$/g, '').trim() : '';
+    const msg   = `${emoji} ${groupName} 오늘의 운세!\n\n"${text}"\n\n✦ 우리 그룹 운세 보기 → https://linefortune.com/`;
+    const ua = navigator.userAgent || '';
+    if (/Android|iPhone|iPad/i.test(ua)) {
+        window.location.href = `kakaotalk://send?text=${encodeURIComponent(msg)}`;
+    } else {
+        navigator.clipboard.writeText(msg).catch(() => {});
+        alert(ui.kakaoCopied);
+    }
+    trackEvent('share', { method: 'kakao', content_type: 'group_fortune' });
+}
+
+function shareGroupOnWhatsApp(groupName, emoji) {
+    const el   = document.querySelector('.group-fortune-text');
+    const text = el ? el.textContent.replace(/^"|"$/g, '').trim() : '';
+    const msg  = `${emoji} *${groupName}* today's fortune!\n\n_"${text}"_\n\n✦ Check yours → https://linefortune.com/`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
+    trackEvent('share', { method: 'whatsapp', content_type: 'group_fortune' });
+}
+
+function shareGroupOnTwitter(groupName, emoji) {
+    const el   = document.querySelector('.group-fortune-text');
+    const text = el ? el.textContent.replace(/^"|"$/g, '').trim() : '';
+    const msg  = `${emoji} ${groupName} oracle reading for today:\n\n"${text}"\n\n✦ Read your K-fate → linefortune.com\n#TheOracle #${groupName.replace(/\s/g,'')} #KPop`;
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
+    trackEvent('share', { method: 'twitter', content_type: 'group_fortune' });
+}
+
+function shareGroupNative(groupName, emoji) {
+    const el   = document.querySelector('.group-fortune-text');
+    const text = el ? el.textContent.replace(/^"|"$/g, '').trim() : '';
+    if (navigator.share) {
+        navigator.share({
+            title: `${emoji} ${groupName} — THE ORACLE`,
+            text: `"${text}"`,
+            url: 'https://linefortune.com/',
+        }).catch(() => {});
+        trackEvent('share', { method: 'native', content_type: 'group_fortune' });
+    } else {
+        shareGroupOnTwitter(groupName, emoji);
+    }
 }
 
 // ── 링크 복사 ──
