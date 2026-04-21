@@ -79,9 +79,14 @@ header {
     justify-content: space-between;
     align-items: center;
     padding-bottom: 3rem;
+    position: relative;
 }
 
 .logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
     font-family: var(--font-serif);
     font-weight: 900;
     font-size: 1.2rem;
@@ -91,6 +96,7 @@ header {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    z-index: 1;
 }
 
 .header-right {
